@@ -85,7 +85,7 @@
                     <a class="nav-link nav_svg_link" href="#"><img src="static/shop_cart.svg" alt="shopping cart" class = "nav_svg" id = "cart"><p id = "cart_items">0</p></a>
                 </li>
                 <li class="nav-item active">
-                    {% if logged_user %}
+                    {% if request.session.logged_user %}
                     <a class="nav-link" id = "profile" href="#"><img src="static/person.svg" alt="profile icon " class = "nav_svg" ></a>
                     {% else %}
                     <a href="http://localhost:8000/login" class = "btn btn-link" style = "margin-top: 6px;">Sign In</a>

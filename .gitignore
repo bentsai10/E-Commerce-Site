@@ -1,1 +1,4 @@
-key.py
+key.py,
+.DS_Store,
+login/.DS_Store,
+db.sqlite3

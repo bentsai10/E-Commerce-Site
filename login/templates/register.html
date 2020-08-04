@@ -129,8 +129,15 @@
         </nav>
         <div class = "container" style = "width: 25vw; margin-top: 10px;">
             <h1 class = "display-4">Register</h1>
-            <form action="" method = "POST" style="margin-top: 20px;">
+            <form action="http://localhost:8000/process_register" method = "POST" style="margin-top: 20px;">
                 {% csrf_token %}
+                {% if messages %}
+                <ul style="list-style-type: square; margin-left: -20px;">
+                    {% for message in messages %}
+                    <li style="color: red; font-size: 12px;">{{message}}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
                 <label class = "lead">First Name:</label>
                 <input type="text" style="width: 100%;" name = "first_name">
                 <label class = "lead" style="margin-top: 10px;">Last Name:</label>
