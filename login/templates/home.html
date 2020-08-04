@@ -10,6 +10,14 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
         
         <link rel="stylesheet" href="{% static 'css/home_style.css' %}">
+        <style>
+            .card img{
+                height:200px;
+            }
+            .card-deck{
+                margin-top: -100px;
+            }
+        </style>
     </head>
     <body>
         <nav class="navbar navbar-expand-md bg-dark navbar-dark">
@@ -92,11 +100,37 @@
               
             </div>
         </nav>
-        <div class = "jumbotron" id = "jumbotron" style = "background-image: url('static/banner.jpg') !important; background-position: center; background-repeat: no-repeat;background-size: cover;position: relative; height: 50vh; border-radius: 0px;">
+        <div class = "jumbotron" id = "jumbotron" style = "background-image: url('static/banner.jpg') !important; background-position: center; background-repeat: no-repeat;background-size: cover;position: relative; height: 60vh; border-radius: 0px;">
             <h1 class = "display-3" style = "text-align: center; color: white; text-shadow: 2px 2px gray">Welcome to <span style = "color: #a45fc1;">Quaran</span><span style = "color: #f2af58;">things</span></h1>
             <p class = "h3" style = "color: white; width: 50vw; margin: 50px auto; text-align: center; text-shadow: 2px 2px gray;">The social e-commerce platform for all your quarantine needs!</p>
         </div>
-        <div></div>
+        <div class = "container">
+            <div class = "card-deck">
+                <div class="card bg-dark">
+                    <a href=""><img src = "static/quaranthing_friends.jpg" class="card-img-top" alt="video chatting with friends" style = "outline: 2px solid #f2af58;"></a>
+                    <div class="card-body">
+                      <a class="h5 card-link" href = "" style = "display: block; margin: 5px auto; width: fit-content; color:#a45fc1">Quaranthing with Friends</a>
+                      <p class="card-text" style = "text-align: center;color: white;">Whatever you want to do, do it together! "Purchase" appointments with friends to do activities during quarantine: cooking, gaming, talking, you name it!</p>
+
+                    </div>
+                </div>
+                <div class="card bg-dark">
+                    <a href=""><img src = "static/random_quaranthing.jpeg" class="card-img-top" alt="DIY facemask" style = "outline: 2px solid #f2af58;"></a>
+                    <div class="card-body">
+                      <a class="h5 card-link" href = "" style = "display: block; margin: 5px auto; width: fit-content; color:#a45fc1">Discover Random Quaranthings</a>
+                      <p class="card-text" style = "text-align: center; color: white;">Find DIY quaranthings posted by friends or strangers that were made during quarantine. Who knows what you could discover?</p>
+                    </div>
+                </div>
+                <div class="card bg-dark">
+                    <a href=""><img src = "static/quarangiver.jpg" class="card-img-top" alt="Love symbol" style = "outline: 2px solid #f2af58;"></a>
+                    <div class="card-body">
+                      <a class="h5 card-link" href = "" style = "display: block; margin: 5px auto; width: fit-content; color:#a45fc1">Become a Quarangiver</a>
+                      <p class="card-text" style = "text-align: center;color: white;">Give out joy during this tough time by making yourself available for dates with friends or posting DIY items!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
 
 
 
