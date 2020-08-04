@@ -11,7 +11,6 @@ class UserManager(models.Manager):
             birthdate = datetime.strptime(postData["birthday"], '%Y-%m-%d').date()
         except ValueError:
             birthdate = date.today()
-        print((date.today()-birthdate).days)
         EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
         if len(postData['first_name']) < 2:
             errors['first_name'] = "First name must be at least 2 characters!"
@@ -22,7 +21,9 @@ class UserManager(models.Manager):
         if birthdate >= date.today():
             errors["birthday"] = "Your birthday needs to be in the past!"
         if not EMAIL_REGEX.match(postData['email']):
-            errors['email'] = ("Invalid email address!")
+            errors['email'] = "Invalid email address!"
+        if User.objects.filter(email = postData['email'].lower()).all().count() > 0:
+            errors['email'] = "An account already exists with this email address!"
         if len(postData['password']) < 8:
             errors['password'] = "Password must be at least 8 characters!"
         if postData['password'] != postData['password_conf']:
@@ -33,6 +34,15 @@ class UserManager(models.Manager):
         EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
         if not EMAIL_REGEX.match(postData['email']):
             errors['email'] = ("Invalid email address!")
+            return errors
+        lower_email = postData['email'].lower()
+        user = User.objects.filter(email=lower_email) 
+        if user:
+            logged_user = user[0] 
+            if not bcrypt.checkpw(postData['password'].encode(), logged_user.password.encode()):
+                errors["password"] = "Incorrect password!"
+        else:
+            errors["email"] = "This email has not been registered!"
         return errors
 
 class User(models.Model):

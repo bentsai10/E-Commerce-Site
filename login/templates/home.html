@@ -32,10 +32,10 @@
                   <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Quaranthings' Picks<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="#">Top Picks<span class="sr-only">(current)</span></a>
                   </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Food Dates</a>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Quaranthing w/ Friends</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <a class="dropdown-item" href="#">Breakfast</a>
                       <a class="dropdown-item" href="#">Lunch</a>
@@ -43,11 +43,6 @@
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item" href="#">Cook Together!</a>
                       <a class="dropdown-item" href="#">Cooking Classes</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Group Fun</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <a class="dropdown-item" href="#">Quick Chat</a>
                       <a class="dropdown-item" href="#">Video Call</a>
                       <a class="dropdown-item" href="#">Movie Showing</a>
@@ -72,7 +67,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Explore Quarangivers</a>
+                  <a class="nav-link" href="#">Find Quarangivers</a>
                 </li>
               </ul>
               
@@ -81,16 +76,23 @@
                     <input class="form-control mr-sm-2" type="search" placeholder="Search Quaranthings" aria-label="Search" id = "search">
                     <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link nav_svg_link" href="#"><img src="static/shop_cart.svg" alt="shopping cart" class = "nav_svg" id = "cart"><p id = "cart_items">0</p></a>
                 </li>
-                <li class="nav-item active">
-                    {% if request.session.logged_user %}
-                    <a class="nav-link" id = "profile" href="#"><img src="static/person.svg" alt="profile icon " class = "nav_svg" ></a>
-                    {% else %}
-                    <a href="http://localhost:8000/login" class = "btn btn-link" style = "margin-top: 6px;">Sign In</a>
-                    {% endif %}
+                {% if request.session.logged_user %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="static/person.svg" alt="profile icon " class = "nav_svg" ></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="#">My Orders</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="http://localhost:8000/logout">Log Out</a>
+                    </div>
                 </li>
+                {% else %}
+                <li>
+                    <a href="http://localhost:8000/login" class = "btn btn-link" style = "margin-top: 6px;">Sign In</a>
+                </li>
+                {% endif %}
               </ul>
               
             </div>

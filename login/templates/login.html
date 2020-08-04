@@ -129,12 +129,19 @@
         </nav>
         <div class = "container" style = "width: 25vw; margin-top: 100px;">
             <h1 class = "display-4">Login</h1>
-            <form action="" method = "POST" style="margin-top: 20px;">
+            <form action="http://localhost:8000/process_login" method = "POST" style="margin-top: 20px;">
                 {% csrf_token %}
+                {% if messages %}
+                <ul style="list-style-type: square; margin-left: -20px;">
+                    {% for message in messages %}
+                    <li style="color: red; font-size: 12px;">{{message}}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
                 <label class = "lead">Email:</label>
                 <input type="text" style="width: 100%;" name = "email">
-                <label class = "lead" style="margin-top: 20px;" name = "password">Password:</label>
-                <input type="password" style="width: 100%">
+                <label class = "lead" style="margin-top: 20px;">Password:</label>
+                <input type="password" style="width: 100%" name = 'password'>
                 <div style="display:flex; margin-top: 20px;">
                     <a href="http://localhost:8000/register" style="font-size: 12px;">Don't have an account? Register here!</a>
                     <button class="btn btn-primary ml-auto" style="display: block;">Login</button>
