@@ -10,6 +10,7 @@ img{
 }
 .nav_svg{
     height:35px;
+    fill: white;
 }
 #cart{
     margin-top: -5px;

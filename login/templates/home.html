@@ -4,16 +4,15 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Quaranthings</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
         {% load static %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
+        
         <link rel="stylesheet" href="{% static 'css/home_style.css' %}">
     </head>
     <body>
-        <nav class="navbar navbar-expand-md bg-light navbar-light">
+        <nav class="navbar navbar-expand-md bg-dark navbar-dark">
             <a class="navbar-brand" href="#"><img src="static/logo.png" alt="Quaranthings logo"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
@@ -24,12 +23,58 @@
                 <li class="nav-item active">
                   <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">ThingGivers</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Quaranthings' Picks</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="#">Item 1</a>
+                      <a class="dropdown-item" href="#">Item 2</a>
+                      <a class="dropdown-item" href="#">Item 3</a>
+                      <a class="dropdown-item" href="#">Item 4</a>
+                      <a class="dropdown-item" href="#">Item 5</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Food Dates</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="#">Breakfast</a>
+                      <a class="dropdown-item" href="#">Lunch</a>
+                      <a class="dropdown-item" href="#">Dinner</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#">Cook Together!</a>
+                      <a class="dropdown-item" href="#">Cooking Classes</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Group Fun</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="#">Quick Chat</a>
+                      <a class="dropdown-item" href="#">Video Call</a>
+                      <a class="dropdown-item" href="#">Movie Showing</a>
+                      <a class="dropdown-item" href="#">Hiking Outing</a>
+                      <a class="dropdown-item" href="#">Gaming Party</a>
+                      <a class="dropdown-item" href="#">Shopping Spree</a>
+                      <a class="dropdown-item" href="#">Joint Workout</a>
+                      <a class="dropdown-item" href="#">Homework Session</a>
+                      <a class="dropdown-item" href="#">Board Game Night</a>
+                      <a class="dropdown-item" href="#">Karaoke Jam</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">DIY Items</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="#">Face Masks</a>
+                      <a class="dropdown-item" href="#">Photo Frames</a>
+                      <a class="dropdown-item" href="#">Clothing</a>
+                      <a class="dropdown-item" href="#">Shoes</a>
+                      <a class="dropdown-item" href="#">Decorations</a>
+                      <a class="dropdown-item" href="#">Miscellanous Items</a>
+                    </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">All Things</a>
-                  </li>
+                  <a class="nav-link" href="#">Explore Quarangivers</a>
+                </li>
               </ul>
               
               <ul class="navbar-nav ml-auto">
@@ -46,6 +91,17 @@
               </ul>
               
             </div>
-          </nav>
+        </nav>
+        <div class = "jumbotron" id = "jumbotron" style = "background-image: url('static/banner.jpg') !important; background-position: center; background-repeat: no-repeat;background-size: cover;position: relative; height: 50vh; border-radius: 0px;">
+            <h1 class = "display-3" style = "text-align: center; color: white; text-shadow: 2px 2px gray">Welcome to <span style = "color: #a45fc1;">Quaran</span><span style = "color: #f2af58;">things</span></h1>
+            <p class = "h3" style = "color: white; width: 50vw; margin: 50px auto; text-align: center; text-shadow: 2px 2px gray;">The social e-commerce platform for all your quarantine needs!</p>
+        </div>
+        <div></div>
+
+
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     </body>
 </html>
