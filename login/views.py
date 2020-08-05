@@ -8,9 +8,13 @@ def index(request):
     return render(request, 'home.html')
 
 def login(request):
+    if 'logged_user' in request.session:
+        return redirect('/')
     return render(request, 'login.html')
 
 def register(request):
+    if 'logged_user' in request.session:
+        return redirect('/')
     return render(request, 'register.html')
 
 def process_register(request):
