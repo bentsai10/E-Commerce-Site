@@ -3,21 +3,19 @@ from login.models import *
 
 # Create your models here.
 class ProductManager(models.Manager):
-    def validator(self, postData):
+    def validator(self, postData, fileData):
+        print(fileData)
         errors = {}
         if len(postData['name']) < 2:
             errors['name'] = "Quaranthing name must be at least 2 characters!"
         if len(postData['description']) < 10:
             errors['description'] = "Use at least 10 characters to describe your Quaranthing!"
-        if postData['stock'] < 1:
+        if int(float(postData['stock'])) < 1:
             errors['stock'] = "At least one of this Quaranthing must be available for it to be listed!"
-        # if postData['price'].
-        try:
-            # price = round(postData['price'], 2)
-            if postData['price'] >= 10000 or postData['price'] < 0:
-                errors['price'] = "Your Quaranthing price is not between $0 and  $9999.99!"
-        except TypeError:
-            errors['price'] = "Your Quaranthing price is not a number!"
+        if float(postData['price']) >= 10000 or float(postData['price']) < 0:
+            errors['price'] = "Your Quaranthing price is not between $0 and  $9999.99!"
+        if len(fileData.getlist('image')) < 1:
+            errors['image'] = "Please upload at least one photo for your listing!"
         return errors
 class Product(models.Model):
     name = models.CharField(max_length = 255)
@@ -37,7 +35,7 @@ class Category(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 class Image(models.Model):
-    image = models.FileField()
+    img_file = models.ImageField(upload_to='images/') 
     caption = models.TextField(blank=True)
     products = models.ManyToManyField(Product, related_name="images")
     created_at = models.DateTimeField(auto_now_add=True)

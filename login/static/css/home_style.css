@@ -5,23 +5,4 @@ img{
 .nav_svg_link{
     margin-top: 8px;
 }
-#profile{
-    margin-top: 0px;
-}
-.nav_svg{
-    height:35px;
-    fill: white;
-}
-#cart{
-    margin-top: -5px;
-    margin-right: -5px;
-}
-#cart_items{
-    color: #f2af58;
-    display: block;
-    margin-top: -46px;
-    margin-left: 16px;
-}
-nav{
-    background-color: silver;
-}
+
