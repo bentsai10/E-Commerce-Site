@@ -57,36 +57,25 @@
             }
         </script>
         <style>
+            img{
+                height:180px;
+                width:180px;
+            }
             .icons{
                 height: 40px;
                 width: 40px;
             }
-            .thumbnail{
-                height: 190px;
-                width: 190px;
-            }
-            .nav_svg_link{
-                margin-top: 8px;
-            }
-            #profile{
-                margin-top: 0px;
-            }
-            .nav_svg{
-                height:35px;
-                fill: white;
-            }
-            #cart{
-                margin-top: -5px;
-                margin-right: -5px;
-            }
             #cart_items{
                 color: #f2af58;
+                margin-left: 9px;
+                margin-top:-42px;
                 display: block;
-                margin-top: -46px;
-                margin-left: 14px;
             }
-            nav{
-                background-color: silver;
+            .fa-shopping-cart{
+                margin-top: 10px;
+            }
+            .fa-shopping-cart:hover{
+              color: white !important;
             }
             .field{
                 margin-bottom: 20px;
@@ -128,15 +117,11 @@
             .h2{
                 font-weight:300 !important;
             }
-            /* .activity{
-                display: none !important;
-                outline: 1px solid red;
-            } */
         </style>
     </head>
     <body>
         <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-            <a class="navbar-brand" href="http://localhost:8000"><img class = "icons" src="{% static 'logo.png' %}" alt="Quaranthings logo"></a>
+            <a class="navbar-brand" href="http://localhost:8000"><img src="{%static 'logo.png'%}" alt="Quaranthings logo" class = "icons"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -150,8 +135,8 @@
                     <a class="nav-link" href="#">Top Picks<span class="sr-only">(current)</span></a>
                   </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Quaranthing w/ Friends</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="friends" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Quaranthing w/ Friends</a>
+                    <div class="dropdown-menu" aria-labelledby="friends">
                       <a class="dropdown-item" href="#">Breakfast</a>
                       <a class="dropdown-item" href="#">Lunch</a>
                       <a class="dropdown-item" href="#">Dinner</a>
@@ -171,8 +156,8 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">DIY Items</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="diy" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">DIY Items</a>
+                    <div class="dropdown-menu" aria-labelledby="diy">
                       <a class="dropdown-item" href="#">Face Masks</a>
                       <a class="dropdown-item" href="#">Photo Frames</a>
                       <a class="dropdown-item" href="#">Clothing</a>
@@ -192,12 +177,13 @@
                     <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
                 <li class="nav-item">
-                    <a class="nav-link nav_svg_link" href="#"><img src="{% static 'shop_cart.svg' %}" alt="shopping cart" class = "nav_svg icons" id = "cart"><p id = "cart_items">0</p></a>
+                  <!-- <img src="static/shop_cart.svg" alt="shopping cart" class = "nav_svg" id = "cart"> -->
+                    <a class="nav-link nav_svg_link" href="#"><i class="fas fa-shopping-cart fa-lg" style = "color: #999d9f;" id = "cart"></i><p id = "cart_items">0</p></a>
                 </li>
                 {% if request.session.logged_user %}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{% static 'person.svg' %}" alt="profile icon " class = "nav_svg icons" ></a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="user" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle fa-2x"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user">
                       <a class="dropdown-item" href="http://localhost:8000/quaranthings/new">Post Quaranthings</a>
                       <a class="dropdown-item" href="#">My Orders</a>
                       <div class="dropdown-divider"></div>

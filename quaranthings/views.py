@@ -38,4 +38,12 @@ def process_new_quaranthing(request):
             for image in request.FILES.getlist('image'):
                 img = Image.objects.create(img_file = image)
                 img.products.add(quaranthing)
-            return redirect('/')
+            return redirect('/quaranthings/{}'.format(quaranthing.id))
+
+def quaranthing(request, num):
+    category = Product.objects.get(id = num).categories.all().first()
+    context = {
+        'quaranthing': Product.objects.get(id = num),
+        'related_things': category.products.all()
+    }
+    return render(request, 'quaranthing.html', context)

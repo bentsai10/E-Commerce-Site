@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{quaranthing.name}}</title>
+    {% load static %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+      .icons{
+                height: 40px;
+                width: 40px;
+            }
+        #cart_items{
+            color: #f2af58;
+            margin-left: 9px;
+            margin-top:-42px;
+            display: block;
+        }
+        .fa-shopping-cart{
+                margin-top: 10px;
+            }
+        .fa-shopping-cart:hover{
+            color: white !important;
+        }
+        .container{
+          width: 85vw !important;
+          max-width: 100vw !important;
+        }
+        #main_img{
+          max-width: 75%;
+          min-width: 55%;
+          width: 50%;
+          outline: 1px solid #343b3f;
+        }
+        .btn-primary,  .btn-primary:active, .btn-primary:visited {
+            background-color: #a45fc1 !important;
+            border: none;
+        }
+        .btn-primary:hover{
+            background-color: violet !important;
+        }
+        #main_div_sidepanel{
+          height:fit-content;
+          margin: auto 0px;
+          display: block; 
+          padding: 20px;
+          width: 100%;
+        }
+        #reviews, #quaranthings_images, .basic_info, #quantity{
+          margin-left: 20px;
+          margin-bottom: 20px;
+        }
+        .container{
+          outline: 1px solid silver; 
+          padding: 20px; 
+        }
+        #product_container{
+          
+          display:flex;
+          margin-top: 40px; 
+        }
+        #desc_container, #related_container{
+          margin-top: 20px; 
+        }
+        #related_container{
+          margin-bottom: 20px;
+        }
+        .review_count{
+          display:inline;
+        }
+        .thumbnail{
+          height: 70px;
+          width: 70px;
+        }
+        #desc_tab{
+          padding: 20px;
+        }
+        .description{
+          padding: 20px;
+        }
+        select{
+          padding:5px;
+        }
+        .nav-link{
+          color: #f2af58;
+        }
+        .nav-link:hover{
+          color:gold;
+          
+        }
+        #review_btn{
+          margin-left: 20px;
+          margin-top: -10px;
+        }
+    </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+            <a class="navbar-brand" href="http://localhost:8000"><img src="{% static 'logo.png' %}" alt="Quaranthings logo" class = "icons"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="http://localhost:8000">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Top Picks<span class="sr-only">(current)</span></a>
+                  </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="friends" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Quaranthing w/ Friends</a>
+                    <div class="dropdown-menu" aria-labelledby="friends">
+                      <a class="dropdown-item" href="#">Breakfast</a>
+                      <a class="dropdown-item" href="#">Lunch</a>
+                      <a class="dropdown-item" href="#">Dinner</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#">Cook Together!</a>
+                      <a class="dropdown-item" href="#">Cooking Classes</a>
+                      <a class="dropdown-item" href="#">Quick Chat</a>
+                      <a class="dropdown-item" href="#">Video Call</a>
+                      <a class="dropdown-item" href="#">Movie Showing</a>
+                      <a class="dropdown-item" href="#">Hiking Outing</a>
+                      <a class="dropdown-item" href="#">Gaming Party</a>
+                      <a class="dropdown-item" href="#">Shopping Spree</a>
+                      <a class="dropdown-item" href="#">Joint Workout</a>
+                      <a class="dropdown-item" href="#">Homework Session</a>
+                      <a class="dropdown-item" href="#">Board Game Night</a>
+                      <a class="dropdown-item" href="#">Karaoke Jam</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="diy" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">DIY Items</a>
+                    <div class="dropdown-menu" aria-labelledby="diy">
+                      <a class="dropdown-item" href="#">Face Masks</a>
+                      <a class="dropdown-item" href="#">Photo Frames</a>
+                      <a class="dropdown-item" href="#">Clothing</a>
+                      <a class="dropdown-item" href="#">Shoes</a>
+                      <a class="dropdown-item" href="#">Decorations</a>
+                      <a class="dropdown-item" href="#">Miscellanous Items</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Find Quarangivers</a>
+                </li>
+              </ul>
+              
+              <ul class="navbar-nav ml-auto">
+                <form class="form-inline  my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search Quaranthings" aria-label="Search" id = "search">
+                    <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+                <li class="nav-item">
+                  <!-- <img src="static/shop_cart.svg" alt="shopping cart" class = "nav_svg" id = "cart"> -->
+                    <a class="nav-link nav_svg_link" href="#"><i class="fas fa-shopping-cart fa-lg" style = "color: #999d9f;" id = "cart"></i><p id = "cart_items">0</p></a>
+                </li>
+                {% if request.session.logged_user %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="user" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle fa-2x"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user">
+                      <a class="dropdown-item" href="http://localhost:8000/quaranthings/new">Post Quaranthings</a>
+                      <a class="dropdown-item" href="#">My Orders</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="http://localhost:8000/logout">Log Out</a>
+                    </div>
+                </li>
+                {% else %}
+                <li>
+                    <a href="http://localhost:8000/login" class = "btn btn-link" style = "margin-top: 6px;">Login</a>
+                </li>
+                {% endif %}
+              </ul>
+              
+            </div>
+        </nav>
+        <div class = "container" id = "product_container">
+          <img src="{{quaranthing.images.all.first.img_file.url}}" alt="Product image" id = "main_img">
+          <div id = "main_div_sidepanel">
+            <h1 class="h1">{{quaranthing.name}}</h1>
+            <div id = "reviews" >
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              (0)
+            </div>
+            
+            <div id = 'quaranthings_images'>
+              {% for img in quaranthing.images.all %}
+              <img src="{{img.img_file.url}}" alt="product thumbnail" class = "thumbnail">
+              {% endfor %}
+            </div>
+            {% if quaranthing.price == 0%}
+            <h4 class = "lead" class = 'basic_info'><strong>Price: Free</strong><strong class = "float-right">Stock available: {{quaranthing.stock}}</strong></h4>
+            {% else %}
+            <h4 class = "lead" class = 'basic_info'><strong>Price: ${{quaranthing.price}}</strong><strong class = "float-right">Stock available: {{quaranthing.stock}}</strong></h4>
+            {% endif %}
+            <form action="" method="POST">
+              {% csrf_token %}
+              <div id = "quantity">
+                <label class = "lead"><strong>Quantity:</strong> </label>
+                <select name="quantity">
+                  {% for i in '0123456789'|make_list %}
+                    {% if forloop.counter  > quaranthing.stock %}
+                    {% else %}
+                      <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </div>
+              <button class = "btn btn-primary btn-block btn-lg">Add to Cart</button>
+            </form>
+          </div>
+        </div>
+        <div class = "container" id = "desc_container">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Description</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Reviews: <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>(0)</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab"><p class = "lead description">{{quaranthing.description}}</p></div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+              <p class = "lead description">There have been no reviews for this quaranthing. Be the first to leave a review!</p>
+              <a href="" class = "btn btn-primary" id = "review_btn">Write a Review</a>
+            </div>
+          </div>
+        </div>
+        <div class = "container" id = "related_container">
+          <h3>Other Items You May Like</h3>
+          {% for item in related_things %}
+          <div class="card bg-warning" style="width: 18rem;">
+            <img class="card-img-top" src="{{item.images.all.first.img_file.url}}" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">{{item.name}}</h5>
+              <p class="card-text">{{item.description}}</p>
+              {% if item.price == 0%}
+              <p class="card-text lead"><strong>Free</strong></p>
+              {% else %}
+              <p class="card-text lead"><strong>${{item.price}}</strong></p>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+    </body>
+</html>

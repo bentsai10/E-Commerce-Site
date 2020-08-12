@@ -46,8 +46,8 @@
                     <a class="nav-link" href="#">Top Picks<span class="sr-only">(current)</span></a>
                   </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Quaranthing w/ Friends</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="friends" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Quaranthing w/ Friends</a>
+                    <div class="dropdown-menu" aria-labelledby="friends">
                       <a class="dropdown-item" href="#">Breakfast</a>
                       <a class="dropdown-item" href="#">Lunch</a>
                       <a class="dropdown-item" href="#">Dinner</a>
@@ -67,8 +67,8 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">DIY Items</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="diy" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">DIY Items</a>
+                    <div class="dropdown-menu" aria-labelledby="diy">
                       <a class="dropdown-item" href="#">Face Masks</a>
                       <a class="dropdown-item" href="#">Photo Frames</a>
                       <a class="dropdown-item" href="#">Clothing</a>
@@ -93,8 +93,8 @@
                 </li>
                 {% if request.session.logged_user %}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle fa-2x"></i style = "color: white;"></a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="user" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle fa-2x"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user">
                       <a class="dropdown-item" href="http://localhost:8000/quaranthings/new">Post Quaranthings</a>
                       <a class="dropdown-item" href="#">My Orders</a>
                       <div class="dropdown-divider"></div>
