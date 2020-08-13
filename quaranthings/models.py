@@ -40,3 +40,11 @@ class Image(models.Model):
     products = models.ManyToManyField(Product, related_name="images")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+class Review(models.Model):
+    rating = models.IntegerField()
+    content = models.TextField()
+    user = models.ForeignKey(User, related_name = "reviews", on_delete = models.CASCADE)
+    product = models.ForeignKey(Product, related_name = "reviews", on_delete = models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

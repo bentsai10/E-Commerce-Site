@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse
+from django.db.models import Avg
 from .models import *
 from login.models import *
 from django.contrib import messages
@@ -42,8 +43,24 @@ def process_new_quaranthing(request):
 
 def quaranthing(request, num):
     category = Product.objects.get(id = num).categories.all().first()
+    average_rating = Review.objects.filter(product = Product.objects.get(id = num)).all().aggregate(Avg('rating'))['rating__avg']
     context = {
         'quaranthing': Product.objects.get(id = num),
-        'related_things': category.products.all()
+        'related_things': category.products.all(),
+        'average_rating': average_rating
     }
     return render(request, 'quaranthing.html', context)
+
+def process_review(request, num):
+    if request.method == 'POST':    
+        user = User.objects.filter(email = request.session['logged_user']).all().first()
+        Review.objects.create(rating = request.POST['rating'], content = request.POST['content'], user = user, product = Product.objects.get(id = num))
+    return redirect('/quaranthings/{}'.format(num))
+
+
+def delete_review(request, num):
+    if request.method == 'POST':    
+        review = Review.objects.get(id = request.POST['review_id'])
+        review.delete()
+    return redirect('/quaranthings/{}'.format(num))
+
