@@ -22,6 +22,7 @@ class Product(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=6, decimal_places=2) #allow for items to be priced no more than $9999.99
     stock = models.IntegerField() #how many of this product is in stock
+    views = models.IntegerField()
     seller = models.ForeignKey(User, related_name = "products_listed", on_delete = models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

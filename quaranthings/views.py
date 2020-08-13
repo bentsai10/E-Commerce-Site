@@ -42,15 +42,26 @@ def process_new_quaranthing(request):
             return redirect('/quaranthings/{}'.format(quaranthing.id))
 
 def quaranthing(request, num):
-    category = Product.objects.get(id = num).categories.all().first()
-    average_rating = Review.objects.filter(product = Product.objects.get(id = num)).all().aggregate(Avg('rating'))['rating__avg']
-    context = {
-        'quaranthing': Product.objects.get(id = num),
-        'related_things': category.products.all(),
-        'average_rating': average_rating
-    }
-    return render(request, 'quaranthing.html', context)
-
+    try:
+        quaranthing = Product.objects.get(id = num)
+        category = Product.objects.get(id = num).categories.all().first()
+        quaranthing.views += 1
+        quaranthing.save()
+        print(quaranthing.views)
+        if Review.objects.filter(product = Product.objects.get(id = num)).all().count() > 0:
+            average_rating = Review.objects.filter(product = Product.objects.get(id = num)).all().aggregate(Avg('rating'))['rating__avg']
+            rounded_rating = round(average_rating)
+        else:
+            rounded_rating = 0
+        context = {
+            'quaranthing': quaranthing,
+            'related_things': category.products.all(),
+            'average_rating': rounded_rating
+        }
+        return render(request, 'quaranthing.html', context)
+    except User.DoesNotExist:
+        return redirect('/')
+    
 def process_review(request, num):
     if request.method == 'POST':    
         user = User.objects.filter(email = request.session['logged_user']).all().first()
@@ -63,4 +74,10 @@ def delete_review(request, num):
         review = Review.objects.get(id = request.POST['review_id'])
         review.delete()
     return redirect('/quaranthings/{}'.format(num))
+
+def delete_quaranthing(request, num):
+    if request.method == 'POST':
+        quaranthing = Product.objects.get(id = num)
+        quaranthing.delete()
+    return redirect('/')
 

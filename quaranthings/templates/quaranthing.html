@@ -13,6 +13,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
+      var previous = "img_1"
       function reviewTrigger(){
         var elems = document.getElementsByClassName('review_prompt'),
         size = elems.length;
@@ -29,6 +30,19 @@
         document.getElementById('review_prompt').style.display = 'none';
         document.getElementById('review_form').style.display = 'block';
       }
+      function changeMainPic(img){
+        console.log("function called");
+        var mainPicThumbnail = document.getElementById(previous);
+        console.log(mainPicThumbnail);
+        if (img.src != mainPicThumbnail.src){
+          var mainPic = document.getElementById('main_img')
+          mainPicThumbnail.style.border = '1px solid #343b3f';
+          img.style.border = '2px solid #f2af58';
+          mainPic.src = img.src;
+          previous = img.id;
+        }
+      }
+
       // $(document).ready(function(){
       //   $('#review_form').submit(function(e){
       //           e.preventDefault();
@@ -45,63 +59,62 @@
       // })
     </script>
     <style>
-    .icons{
-              height: 40px;
-              width: 40px;
-          }
+      .icons{
+        height: 40px;
+        width: 40px;
+      }
       #cart_items{
-          color: #f2af58;
-          margin-left: 9px;
-          margin-top:-42px;
-          display: block;
+        color: #f2af58;
+        margin-left: 9px;
+        margin-top:-42px;
+        display: block;
       }
       .fa-shopping-cart{
-              margin-top: 10px;
-          }
+          margin-top: 10px;
+      }
       .fa-shopping-cart:hover{
-          color: white !important;
+        color: white !important;
       }
       .container{
         width: 85vw !important;
         max-width: 100vw !important;
       }
       #main_img{
-        max-width: 75%;
-        min-width: 55%;
-        width: 50%;
+        height: 700px;
+        width: 700px;
+        /* max-width: 75%;
+        min-width: 50%;
+        width: 50%; */
         outline: 1px solid #343b3f;
       }
       .btn-primary,  .btn-primary:active, .btn-primary:visited {
-          background-color: #a45fc1 !important;
-          border: none;
+        background-color: #a45fc1 !important;
+        border: none;
       }
       .btn-primary:hover{
-          background-color: violet !important;
+        background-color: violet !important;
       }
       #main_div_sidepanel{
         height:fit-content;
         margin: auto 0px;
         display: block; 
-        padding: 20px;
         width: 100%;
       }
-      #reviews, #quaranthings_images, .basic_info, #quantity{
+      #reviews, #quaranthings_images, .basic_info{
         margin-left: 20px;
         margin-bottom: 20px;
       }
       .container{
         outline: 1px solid silver; 
-        padding: 20px; 
       }
       #product_container{
-        
         display:flex;
         margin-top: 40px; 
       }
       #desc_container, #related_container{
         margin-top: 20px; 
       }
-      #related_container{
+      #related_container, #quantity{
         margin-bottom: 20px;
       }
       .review_count{
@@ -110,11 +123,9 @@
       .thumbnail{
         height: 70px;
         width: 70px;
+        border: 1px solid #343b3f;
       }
-      #desc_tab{
-        padding: 20px;
-      }
-      .description{
+      #desc_tab, .description, .container, #main_div_sidepanel{
         padding: 20px;
       }
       select{
@@ -125,7 +136,6 @@
       }
       .nav-link:hover{
         color:gold;
-        
       }
       .review_btn{
         margin-left: 20px;
@@ -143,6 +153,19 @@
         display: block;
         margin-top: -32px;
       }
+      #big_delete{
+        outline: none;
+        margin-bottom: -40px;
+      }
+      .carousel{
+        width: 1500px !important;
+        height:700px !important;
+      }
+      .carousel-item img, #carouselExampleIndicators{
+        height: 700px;
+        width: 700px;
+      }
+
     </style>
     <link rel="stylesheet" href="{% static 'css/quaranthing_style.css'%}">
   </head>
@@ -225,13 +248,22 @@
 
       </div>
     </nav>
+    {% if request.session.logged_user == quaranthing.seller.email%}
+    <div class = "container" id = "big_delete">
+      <form action="http://localhost:8000/quaranthings/{{quaranthing.id}}/delete_quaranthing" method = "POST">
+        {% csrf_token %}
+        <button class = "btn btn-danger btn-sm btn-block">Delete Quaranthing</button>
+      </form>
+    </div>
+    {% endif %}
     <div class = "container" id = "product_container">
       <img src="{{quaranthing.images.all.first.img_file.url}}" alt="Product image" id = "main_img">
       <div id = "main_div_sidepanel">
-        <h1 class="h1">{{quaranthing.name}}</h1>
+        <h6>Posted by {{quaranthing.seller.first_name}} {{quaranthing.seller.last_name}}</h6>
+        <h1>{{quaranthing.name}}</h1>
         <div id = "reviews" >
           {% for i in '01234'|make_list %}
-          {% if forloop.counter > average_rating%}
+          {% if forloop.counter > average_rating or quaranthing.reviews.all.count == 0%}
             <i class="fas fa-star" style="color: grey;"></i>
           {% else %}
             <i class="fas fa-star" style="color: #f2af58;"></i>
@@ -241,7 +273,11 @@
         </div>
         <div id = 'quaranthings_images'>
           {% for img in quaranthing.images.all %}
-            <img src="{{img.img_file.url}}" alt="product thumbnail" class = "thumbnail">
+            {% if img.img_file.url == quaranthing.images.all.first.img_file.url %}
+            <img src="{{img.img_file.url}}" alt="product thumbnail" class = "thumbnail" id = "img_{{forloop.counter}}" style="border: 2px solid #f2af58;" onclick = "javascript:changeMainPic(this);" >
+            {% else %}
+            <img src="{{img.img_file.url}}" alt="product thumbnail" class = "thumbnail" id = "img_{{forloop.counter}}" onclick = "javascript:changeMainPic(this);">
+            {% endif %}
           {% endfor %}
         </div>
         {% if quaranthing.price == 0%}
@@ -274,7 +310,7 @@
         <li class="nav-item">
           <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Reviews: 
             {% for i in '01234'|make_list %}
-            {% if forloop.counter > average_rating%}
+            {% if forloop.counter > average_rating or quaranthing.reviews.all.count == 0%}
               <i class="fas fa-star" style="color: grey;"></i>
             {% else %}
               <i class="fas fa-star" style="color: #f2af58;"></i>
@@ -356,6 +392,8 @@
     <div class = "container" id = "related_container">
       <h3>Other Items You May Like</h3>
       {% for item in related_things %}
+      {% if item.id == quaranthing.id %}
+      {% else %}
       <div class="card bg-warning" style="width: 18rem;">
         <img class="card-img-top" src="{{item.images.all.first.img_file.url}}" alt="Card image cap">
         <div class="card-body">
@@ -368,6 +406,7 @@
           {% endif %}
         </div>
       </div>
+      {% endif %}
       {% endfor %}
     </div>
   </body>
