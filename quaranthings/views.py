@@ -81,3 +81,9 @@ def delete_quaranthing(request, num):
         quaranthing.delete()
     return redirect('/')
 
+def top_picks(request):
+    context = {
+        'picks': Product.objects.all().order_by('-views')
+    }
+    return render(request, 'top_picks.html', context)
+
