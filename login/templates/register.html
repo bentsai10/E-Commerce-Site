@@ -44,99 +44,99 @@
         </style>
     </head>
     <body>
-      <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-        <a class="navbar-brand" href="http://localhost:8000"><img src="{% static 'logo.png' %}" alt="Quaranthings logo" class = "icons"></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8000">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="http://localhost:8000/quaranthings/top_picks">Top Picks<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="friends" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Quaranthing w/ Friends</a>
-                    <div class="dropdown-menu" aria-labelledby="friends">
-                        <div class = "row" style="width:600px;">
-                            <ul class="list-unstyled col-md-4">
-                                <h6 class="dropdown-header">Food</h6>
-                                <li><a class="dropdown-item" href="#">Breakfast</a></li>
-                                <li><a class="dropdown-item" href="#">Lunch</a></li>
-                                <li><a class="dropdown-item" href="#">Dinner</a></li>
-                                <li><a class="dropdown-item" href="#">Cook Together</a></li>
-                                <li><a class="dropdown-item" href="#">Cooking Classes</a></li>
-                            </ul>
-                            <ul class="list-unstyled col-md-4">
-                                <h6 class="dropdown-header">Catch Up</h6>
-                                <li><a class="dropdown-item" href="#">Quick Chat</a></li>
-                                <li><a class="dropdown-item" href="#">Video Call</a></li>
-                                <li><a class="dropdown-item" href="#">Homework Session</a></li>
-                                <h6 class="dropdown-header">Games</h6>
-                                <li><a class="dropdown-item" href="#">Gaming Party</a></li>
-                                
-                                <li><a class="dropdown-item" href="#">Board Game Night</a></li>
-                            </ul>
-                            <ul class="list-unstyled col-md-4">
-                                <h6 class="dropdown-header">Exercise</h6>
-                                <li><a class="dropdown-item" href="#">Hiking Outing</a></li>
-                                <li><a class="dropdown-item" href="#">Joint Workout</a></li>
-                                <h6 class="dropdown-header">Random Fun</h6>
-                                <li><a class="dropdown-item" href="#">Movie Showing</a></li>
-                                <li><a class="dropdown-item" href="#">Shopping Spree</a></li>
-                                <li><a class="dropdown-item" href="#">Karaoke Jam</a></li>
-                            </ul>
+        <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+            <a class="navbar-brand" href="http://localhost:8000"><img src="{% static 'logo.png' %}" alt="Quaranthings logo" class = "icons"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://localhost:8000">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="http://localhost:8000/quaranthings/top_picks">Top Picks<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="friends" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Quaranthing w/ Friends</a>
+                        <div class="dropdown-menu" aria-labelledby="friends">
+                            <div class = "row" style="width:600px;">
+                                <ul class="list-unstyled col-md-4">
+                                    <h6 class="dropdown-header">Food</h6>
+                                    <li><a class="dropdown-item" href="#">Breakfast</a></li>
+                                    <li><a class="dropdown-item" href="#">Lunch</a></li>
+                                    <li><a class="dropdown-item" href="#">Dinner</a></li>
+                                    <li><a class="dropdown-item" href="#">Cook Together</a></li>
+                                    <li><a class="dropdown-item" href="#">Cooking Classes</a></li>
+                                </ul>
+                                <ul class="list-unstyled col-md-4">
+                                    <h6 class="dropdown-header">Catch Up</h6>
+                                    <li><a class="dropdown-item" href="#">Quick Chat</a></li>
+                                    <li><a class="dropdown-item" href="#">Video Call</a></li>
+                                    <li><a class="dropdown-item" href="#">Homework Session</a></li>
+                                    <h6 class="dropdown-header">Games</h6>
+                                    <li><a class="dropdown-item" href="#">Gaming Party</a></li>
+                                    
+                                    <li><a class="dropdown-item" href="#">Board Game Night</a></li>
+                                </ul>
+                                <ul class="list-unstyled col-md-4">
+                                    <h6 class="dropdown-header">Exercise</h6>
+                                    <li><a class="dropdown-item" href="#">Hiking Outing</a></li>
+                                    <li><a class="dropdown-item" href="#">Joint Workout</a></li>
+                                    <h6 class="dropdown-header">Random Fun</h6>
+                                    <li><a class="dropdown-item" href="#">Movie Showing</a></li>
+                                    <li><a class="dropdown-item" href="#">Shopping Spree</a></li>
+                                    <li><a class="dropdown-item" href="#">Karaoke Jam</a></li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="diy" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">DIY Items</a>
-                    <div class="dropdown-menu" aria-labelledby="diy">
-                        <h6 class="dropdown-header">Wearables</h6>
-                        <a class="dropdown-item" href="#">Face Masks</a>
-                        <a class="dropdown-item" href="#">Clothing</a>
-                        <a class="dropdown-item" href="#">Shoes</a>
-                        <div class = "dropdown-divider"></div>
-                        <h6 class="dropdown-header">Other</h6>
-                        <a class="dropdown-item" href="#">Photo Frames</a>
-                        <a class="dropdown-item" href="#">Decorations</a>
-                        <a class="dropdown-item" href="#">Miscellanous</a>
-                    </div>
-                </li>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="diy" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">DIY Items</a>
+                        <div class="dropdown-menu" aria-labelledby="diy">
+                            <h6 class="dropdown-header">Wearables</h6>
+                            <a class="dropdown-item" href="http://localhost:8000/quaranthings/face%20masks">Face Masks</a>
+                            <a class="dropdown-item" href="http://localhost:8000/quaranthings/clothing">Clothing</a>
+                            <a class="dropdown-item" href="http://localhost:8000/quaranthings/shoes">Shoes</a>
+                            <div class = "dropdown-divider"></div>
+                            <h6 class="dropdown-header">Other</h6>
+                            <a class="dropdown-item" href="http://localhost:8000/quaranthings/photo%20frames">Photo Frames</a>
+                            <a class="dropdown-item" href="http://localhost:8000/quaranthings/decorations">Decorations</a>
+                            <a class="dropdown-item" href="http://localhost:8000/quaranthings/miscellaneous%20items">Miscellaneous</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Find Quarangivers</a>
+                    </li>
+                </ul>
+        
+                <ul class="navbar-nav ml-auto">
+                <form class="form-inline  my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search Quaranthings" aria-label="Search" id = "search">
+                    <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Find Quarangivers</a>
+                    <a class="nav-link nav_svg_link" href="#"><i class="fas fa-shopping-cart fa-lg" style = "color: #999d9f;" id = "cart"></i><p id = "cart_items">0</p></a>
                 </li>
-            </ul>
-    
-            <ul class="navbar-nav ml-auto">
-            <form class="form-inline  my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search Quaranthings" aria-label="Search" id = "search">
-                <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            <li class="nav-item">
-                <a class="nav-link nav_svg_link" href="#"><i class="fas fa-shopping-cart fa-lg" style = "color: #999d9f;" id = "cart"></i><p id = "cart_items">0</p></a>
-            </li>
-            {% if request.session.logged_user %}
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="user" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle fa-2x"></i></a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user">
-                <a class="dropdown-item" href="http://localhost:8000/quaranthings/new">Post Quaranthings</a>
-                <a class="dropdown-item" href="#">My Orders</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="http://localhost:8000/logout">Log Out</a>
-                </div>
-            </li>
-            {% else %}
-            <li>
-                <a href="http://localhost:8000/login" class = "btn btn-link" style = "margin-top: 6px;">Login</a>
-            </li>
-            {% endif %}
-            </ul>
-  
-        </div>
-      </nav>
+                {% if request.session.logged_user %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="user" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle fa-2x"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user">
+                    <a class="dropdown-item" href="http://localhost:8000/quaranthings/new">Post Quaranthings</a>
+                    <a class="dropdown-item" href="#">My Orders</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="http://localhost:8000/logout">Log Out</a>
+                    </div>
+                </li>
+                {% else %}
+                <li>
+                    <a href="http://localhost:8000/login" class = "btn btn-link" style = "margin-top: 6px;">Login</a>
+                </li>
+                {% endif %}
+                </ul>
+      
+            </div>
+        </nav>
         <div class = "container" style = "width: 25vw; margin-top: 10px;">
             <h1 class = "display-4">Register</h1>
             <form action="http://localhost:8000/process_register" method = "POST" style="margin-top: 20px;">

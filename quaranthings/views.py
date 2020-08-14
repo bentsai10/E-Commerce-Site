@@ -25,7 +25,7 @@ def process_new_quaranthing(request):
                 messages.error(request, value)
             return redirect('/quaranthings/new')
         else:
-            quaranthing = Product.objects.create(name = request.POST['name'], description = request.POST['description'], price = request.POST['price'], stock = request.POST['stock'], seller = User.objects.filter(email = request.session['logged_user']).all().first())
+            quaranthing = Product.objects.create(name = request.POST['name'], description = request.POST['description'], price = request.POST['price'], stock = request.POST['stock'], seller = User.objects.filter(email = request.session['logged_user']).all().first(), views = 0)
             for key in request.POST.keys():
                 print(key)
             if request.POST['thing_type'] == 'activity':
@@ -83,7 +83,19 @@ def delete_quaranthing(request, num):
 
 def top_picks(request):
     context = {
-        'picks': Product.objects.all().order_by('-views')
+        'picks': Product.objects.all().order_by('-views')[:40],
+        'categories': Category.objects.all()
     }
     return render(request, 'top_picks.html', context)
+
+def category(request, category):
+    formatted_category = category.title()
+    if Category.objects.filter(name = formatted_category).all().count() < 1:
+        return redirect('/')
+    else:
+        context = {
+            'category': Category.objects.filter(name = formatted_category).all().first(),
+            'products': Category.objects.filter(name = formatted_category).all().first().products.all()
+        }
+        return render(request, 'category.html', context)
 

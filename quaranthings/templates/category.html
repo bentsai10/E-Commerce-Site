@@ -188,7 +188,7 @@
                         <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside2" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
                                 <h6 class="title">Price </h6>
                             </a> </header>
-                        <div class="filter-content collapse" id="collapse_aside2" style="">
+                        <div class="filter-content collapse" id="collapse_aside2">
                             <div class="card-body"> <input type="range" class="custom-range" min="0" max="100" name="">
                                 <div class="form-row">
                                     <div class="form-group col-md-6"> <label>Min</label> <input class="form-control" placeholder="$0" type="number"> </div>
@@ -224,40 +224,40 @@
                 </div>
             </div>
             <div class = "container">
-                <h1 class = "display-4">Quaranthings' Top Picks</h1>
-                <p class = "lead" style="opacity: 40%; margin-top: -10px;">The most popular items among our users</p>
+                <h1 class = "display-4">{{category.name}}</h1>
+                <p class = "lead" style="opacity: 40%; margin-top: -10px;">The latest Quaranthings {{category.name}} </p>
                 <div style = "display:flex;">
-                    {% for pick in picks %}
+                    {% for product in products %}
                     {% if forloop.counter0|divisibleby:4 %}
                     </div>
                     <div style="display: flex; margin-bottom: 20px;">
                         <div class="card bg-warning">
-                            <img class="card-img-top" src="{{pick.images.all.first.img_file.url}}" alt="Card image cap">
+                            <img class="card-img-top" src="{{product.images.all.first.img_file.url}}" alt="Card image cap">
                             <div class="card-body">
-                                <a href="http://localhost:8000/quaranthings/{{pick.id}}" class = "card-title h5">{{pick.name}}</a>
-                              <p class="card-text">{{pick.description}}</p>
+                                <a href="http://localhost:8000/quaranthings/{{product.id}}" class = "card-title h5">{{product.name}}</a>
+                              <p class="card-text">{{product.description}}</p>
                               
                             </div>
                             <div class = "card-footer">
-                                {% if pick.price == 0%}
+                                {% if product.price == 0%}
                                 <p class="card-text lead"><strong>Free</strong></p>
                                 {% else %}
-                                <p class="card-text lead"><strong>${{pick.price}}</strong></p>
+                                <p class="card-text lead"><strong>${{product.price}}</strong></p>
                                 {% endif %}
                             </div>
                         </div>
                     {% else %}
                         <div class="card bg-warning">
-                            <img class="card-img-top" src="{{pick.images.all.first.img_file.url}}" alt="Card image cap">
+                            <img class="card-img-top" src="{{product.images.all.first.img_file.url}}" alt="Card image cap">
                             <div class="card-body">
-                                <a href="http://localhost:8000/quaranthings/{{pick.id}}" class = "card-title h5">{{pick.name}}</a>
-                                <p class="card-text">{{pick.description}}</p>
+                                <a href="http://localhost:8000/quaranthings/{{product.id}}" class = "card-title h5">{{product.name}}</a>
+                                <p class="card-text">{{product.description}}</p>
                             </div>
                             <div class = "card-footer">
-                                {% if pick.price == 0%}
+                                {% if product.price == 0%}
                                 <p class="card-text lead"><strong>Free</strong></p>
                                 {% else %}
-                                <p class="card-text lead"><strong>${{pick.price}}</strong></p>
+                                <p class="card-text lead"><strong>${{product.price}}</strong></p>
                                 {% endif %}
                             </div>
                         </div>
