@@ -1,0 +1,65 @@
+
+    {% if quaranthing.reviews.all %}
+      {% for review in quaranthing.reviews.all%}
+      <div class = "written_review">
+        <div class = "review_header">
+          <h5><strong>{{review.user.first_name}} {{review.user.last_name}}</strong> wrote on {{review.created_at|date:'M d, Y' }}:</h5>
+          {% if review.user.email == request.session.logged_user %}
+          <form action="http://localhost:8000/quaranthings/{{quaranthing.id}}/delete_review" method = "POST">
+            {% csrf_token %}
+            <input type="hidden" name="review_id" value = "{{review.id}}">
+            <button class = "btn btn-outline-danger btn-sm ml-auto" >Delete</button>
+          </form>
+          {% endif %}
+        </div>
+        
+        <div class = "review_stars">
+          {% for i in '01234'|make_list %}
+          {% if forloop.counter > review.rating %}
+            <i class="fas fa-star" style="color: grey;"></i>
+          {% else %}
+            <i class="fas fa-star" style="color: #f2af58;"></i>
+          {% endif %}
+          {% endfor %}
+
+        </div>
+        <p class = "lead" style="margin-left: 10px;">{{review.content}}</p>
+      </div>
+      {% endfor %}
+      <button class = "btn btn-primary review_btn ml-auto review_prompt" style = "display: block;" onclick="javascript:reviewTrigger();">Write a Review</button>
+      <form action="http://localhost:8000/quaranthings/process_review" method = "POST" style = "margin-top: 10px; display: none;" class = "review_form" id = "review_form_2">
+        {% csrf_token %}
+        <label class = "lead" style="display: block;">Rating: </label>
+        <span class="star-rating">
+          <input type="radio" name="rating" value="1"><i></i>
+          <input type="radio" name="rating" value="2"><i></i>
+          <input type="radio" name="rating" value="3"><i></i>
+          <input type="radio" name="rating" value="4"><i></i>
+          <input type="radio" name="rating" value="5"><i></i>
+        </span>
+        <label class = "lead" style="display: block; margin-top: 20px;">Review: </label>
+        <textarea name="content" id = "review_text" style = "width: 100%; height: 7em;"></textarea>
+        <input type="hidden" name="thing_id" value = "{{quaranthing.id}}">
+        <button class = "btn btn-primary ml-auto" style = "display: block;">Post Review</button>
+      </form>
+    {% else %}
+    <div class = "review_prompt" >
+      <p class = "lead description">There have been no reviews for this quaranthing. Be the first to leave a review!</p>
+      <button class = "btn btn-primary review_btn" onclick="javascript:reviewTrigger();" >Write a Review</button>
+    </div>
+    <form action="http://localhost:8000/quaranthings/process_review" method = "POST" style = "margin-top: 10px; display: none;" class = "review_form" id = "review_form_1">
+      {% csrf_token %}
+      <label class = "lead" style="display: block;">Rating: </label>
+      <span class="star-rating">
+        <input type="radio" name="rating" value="1" ><i></i>
+        <input type="radio" name="rating" value="2" ><i></i>
+        <input type="radio" name="rating" value="3" ><i></i>
+        <input type="radio" name="rating" value="4" ><i></i>
+        <input type="radio" name="rating" value="5" ><i></i>
+      </span>
+      <label class = "lead" style="display: block; margin-top: 20px;">Review: </label>
+      <textarea name="content" id = "review_text" style = "width: 100%; height: 7em;"></textarea>
+      <input type="hidden" name="thing_id" value = "{{quaranthing.id}}">
+      <button class = "btn btn-primary ml-auto" style = "display: block;">Post Review</button>
+    </form>
+    {% endif %}

@@ -12,36 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-      var previous = "img_1"
-      function reviewTrigger(){
-        var elems = document.getElementsByClassName('review_prompt'),
-        size = elems.length;
-        for(var i = 0; i < size; i++){
-            var prompt = elems[i];
-            prompt.style.display = 'none';
-        }
-        elems = document.getElementsByClassName('review_form');
-        size = elems.length;
-        for(var i = 0; i < size; i++){
-          var form = elems[i];
-          form.style.display = 'block';
-        }
-        document.getElementById('review_prompt').style.display = 'none';
-        document.getElementById('review_form').style.display = 'block';
-      }
-      function changeMainPic(img){
-        var mainPicThumbnail = document.getElementById(previous);
-        console.log(mainPicThumbnail);
-        if (img.src != mainPicThumbnail.src){
-          var mainPic = document.getElementById('main_img')
-          mainPicThumbnail.style.border = '1px solid #343b3f';
-          img.style.border = '2px solid #f2af58';
-          mainPic.src = img.src;
-          previous = img.id;
-        }
-      }
-    </script>
+    
     <style>
       .icons{
         height: 40px;
@@ -248,67 +219,21 @@
 
       </div>
     </nav>
-    {% if request.session.logged_user == quaranthing.seller.email%}
-    <div class = "container" id = "big_delete">
-      <form action="http://localhost:8000/quaranthings/{{quaranthing.id}}/delete_quaranthing" method = "POST">
-        {% csrf_token %}
-        <button class = "btn btn-danger btn-sm btn-block">Delete Quaranthing</button>
-      </form>
-    </div>
-    {% endif %}
-    <div class = "container" id = "product_container">
-      <img src="{{quaranthing.images.all.first.img_file.url}}" alt="Product image" id = "main_img">
-      <div id = "main_div_sidepanel">
-        <h6>Posted by {{quaranthing.seller.first_name}} {{quaranthing.seller.last_name}}</h6>
-        <h1>{{quaranthing.name}}</h1>
-        <div id = "reviews" >
-          {% for i in '01234'|make_list %}
-          {% if forloop.counter > average_rating or quaranthing.reviews.all.count == 0%}
-            <i class="fas fa-star" style="color: grey;"></i>
-          {% else %}
-            <i class="fas fa-star" style="color: #f2af58;"></i>
-          {% endif %}
-          {% endfor %}
-          ({{quaranthing.reviews.all.count}})
-        </div>
-        <div id = 'quaranthings_images'>
-          {% for img in quaranthing.images.all %}
-            {% if img.img_file.url == quaranthing.images.all.first.img_file.url %}
-            <img src="{{img.img_file.url}}" alt="product thumbnail" class = "thumbnail" id = "img_{{forloop.counter}}" style="border: 2px solid #f2af58;" onclick = "javascript:changeMainPic(this);" >
-            {% else %}
-            <img src="{{img.img_file.url}}" alt="product thumbnail" class = "thumbnail" id = "img_{{forloop.counter}}" onclick = "javascript:changeMainPic(this);">
-            {% endif %}
-          {% endfor %}
-        </div>
-        {% if quaranthing.price == 0%}
-        <h4 class = "lead" class = 'basic_info'><strong>Price: Free</strong><strong class = "float-right">Stock available: {{quaranthing.stock}}</strong></h4>
-        {% else %}
-        <h4 class = "lead" class = 'basic_info'><strong>Price: ${{quaranthing.price}}</strong><strong class = "float-right">Stock available: {{quaranthing.stock}}</strong></h4>
-        {% endif %}
-        <form action="" method="POST">
+    <div id = "main_body">
+      {% if request.session.logged_user == quaranthing.seller.email%}
+      <div class = "container" id = "big_delete">
+        <form action="http://localhost:8000/quaranthings/{{quaranthing.id}}/delete_quaranthing" method = "POST">
           {% csrf_token %}
-          <div id = "quantity">
-            <label class = "lead"><strong>Quantity:</strong> </label>
-            <select name="quantity">
-              {% for i in '0123456789'|make_list %}
-              {% if forloop.counter  > quaranthing.stock %}
-              {% else %}
-              <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
-              {% endif %}
-              {% endfor %}
-            </select>
-          </div>
-          <button class = "btn btn-primary btn-block btn-lg">Add to Cart</button>
+          <button class = "btn btn-danger btn-sm btn-block">Delete Quaranthing</button>
         </form>
       </div>
-    </div>
-    <div class = "container" id = "desc_container">
-      <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
-          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Description</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Reviews: 
+      {% endif %}
+      <div class = "container" id = "product_container">
+        <img src="{{quaranthing.images.all.first.img_file.url}}" alt="Product image" id = "main_img">
+        <div id = "main_div_sidepanel">
+          <h6>Posted by {{quaranthing.seller.first_name}} {{quaranthing.seller.last_name}}</h6>
+          <h1>{{quaranthing.name}}</h1>
+          <div id = "reviews" >
             {% for i in '01234'|make_list %}
             {% if forloop.counter > average_rating or quaranthing.reviews.all.count == 0%}
               <i class="fas fa-star" style="color: grey;"></i>
@@ -316,98 +241,202 @@
               <i class="fas fa-star" style="color: #f2af58;"></i>
             {% endif %}
             {% endfor %}
-            ({{quaranthing.reviews.all.count}})</a>
-        </li>
-      </ul>
-      <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-          <p class = "lead description">{{quaranthing.description}}</p>
-        </div>
-        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab" style="padding: 10px;">
-          {% if quaranthing.reviews.all %}
-            {% for review in quaranthing.reviews.all reversed%}
-            <div class = "written_review">
-              <div class = "review_header">
-                <h5><strong>{{review.user.first_name}} {{review.user.last_name}}</strong> wrote on {{review.created_at|date:'M d, Y' }}:</h5>
-                {% if review.user.email == request.session.logged_user %}
-                <form action="http://localhost:8000/quaranthings/{{quaranthing.id}}/delete_review" method = "POST">
-                  {% csrf_token %}
-                  <input type="hidden" name="review_id" value = "{{review.id}}">
-                  <button class = "btn btn-outline-danger btn-sm ml-auto" >Delete</button>
-                </form>
-                {% endif %}
-              </div>
-              
-              <div class = "review_stars">
-                {% for i in '01234'|make_list %}
-                {% if forloop.counter > review.rating %}
-                  <i class="fas fa-star" style="color: grey;"></i>
+            ({{quaranthing.reviews.all.count}})
+          </div>
+          <div id = 'quaranthings_images'>
+            {% for img in quaranthing.images.all %}
+              {% if img.img_file.url == quaranthing.images.all.first.img_file.url %}
+              <img src="{{img.img_file.url}}" alt="product thumbnail" class = "thumbnail" id = "img_{{forloop.counter}}" style="border: 2px solid #f2af58;" onclick = "javascript:changeMainPic(this);" >
+              {% else %}
+              <img src="{{img.img_file.url}}" alt="product thumbnail" class = "thumbnail" id = "img_{{forloop.counter}}" onclick = "javascript:changeMainPic(this);">
+              {% endif %}
+            {% endfor %}
+          </div>
+          {% if quaranthing.price == 0%}
+          <h4 class = "lead" class = 'basic_info'><strong>Price: Free</strong><strong class = "float-right">Stock available: {{quaranthing.stock}}</strong></h4>
+          {% else %}
+          <h4 class = "lead" class = 'basic_info'><strong>Price: ${{quaranthing.price}}</strong><strong class = "float-right">Stock available: {{quaranthing.stock}}</strong></h4>
+          {% endif %}
+          <form action="" method="POST">
+            {% csrf_token %}
+            <div id = "quantity">
+              <label class = "lead"><strong>Quantity:</strong> </label>
+              <select name="quantity">
+                {% for i in '0123456789'|make_list %}
+                {% if forloop.counter  > quaranthing.stock %}
                 {% else %}
-                  <i class="fas fa-star" style="color: #f2af58;"></i>
+                <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
                 {% endif %}
                 {% endfor %}
-
-              </div>
-              <p class = "lead" style="margin-left: 10px;">{{review.content}}</p>
+              </select>
             </div>
-            {% endfor %}
-            <button class = "btn btn-primary review_btn ml-auto review_prompt" style = "display: block;" onclick="javascript:reviewTrigger();">Write a Review</button>
-            <form action="http://localhost:8000/quaranthings/{{quaranthing.id}}/process_review" method = "POST" style = "margin-top: 10px; display: none;" class = "review_form">
+            <button class = "btn btn-primary btn-block btn-lg">Add to Cart</button>
+          </form>
+        </div>
+      </div>
+      <div class = "container" id = "desc_container">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Description</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Reviews: 
+              {% for i in '01234'|make_list %}
+              {% if forloop.counter > average_rating or quaranthing.reviews.all.count == 0%}
+                <i class="fas fa-star" style="color: grey;"></i>
+              {% else %}
+                <i class="fas fa-star" style="color: #f2af58;"></i>
+              {% endif %}
+              {% endfor %}
+              ({{quaranthing.reviews.all.count}})</a>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <p class = "lead description">{{quaranthing.description}}</p>
+          </div>
+          <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab" style="padding: 10px;">
+            {% if quaranthing.reviews.all %}
+              {% for review in quaranthing.reviews.all%}
+              <div class = "written_review">
+                <div class = "review_header">
+                  <h5><strong>{{review.user.first_name}} {{review.user.last_name}}</strong> wrote on {{review.created_at|date:'M d, Y' }}:</h5>
+                  {% if review.user.email == request.session.logged_user %}
+                  <form action="http://localhost:8000/quaranthings/{{quaranthing.id}}/delete_review" method = "POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="review_id" value = "{{review.id}}">
+                    <button class = "btn btn-outline-danger btn-sm ml-auto" >Delete</button>
+                  </form>
+                  {% endif %}
+                </div>
+                
+                <div class = "review_stars">
+                  {% for i in '01234'|make_list %}
+                  {% if forloop.counter > review.rating %}
+                    <i class="fas fa-star" style="color: grey;"></i>
+                  {% else %}
+                    <i class="fas fa-star" style="color: #f2af58;"></i>
+                  {% endif %}
+                  {% endfor %}
+
+                </div>
+                <p class = "lead" style="margin-left: 10px;">{{review.content}}</p>
+              </div>
+              {% endfor %}
+              <button class = "btn btn-primary review_btn ml-auto review_prompt" style = "display: block;" onclick="javascript:reviewTrigger();">Write a Review</button>
+              <form action="http://localhost:8000/quaranthings/process_review" method = "POST" style = "margin-top: 10px; display: none;" class = "review_form" id = "review_form_2">
+                {% csrf_token %}
+                <label class = "lead" style="display: block;">Rating: </label>
+                <span class="star-rating">
+                  <input type="radio" name="rating" value="1"><i></i>
+                  <input type="radio" name="rating" value="2"><i></i>
+                  <input type="radio" name="rating" value="3"><i></i>
+                  <input type="radio" name="rating" value="4"><i></i>
+                  <input type="radio" name="rating" value="5"><i></i>
+                </span>
+                <label class = "lead" style="display: block; margin-top: 20px;">Review: </label>
+                <textarea name="content" id = "review_text" style = "width: 100%; height: 7em;"></textarea>
+                <input type="hidden" name="thing_id" value = "{{quaranthing.id}}">
+                <button class = "btn btn-primary ml-auto" style = "display: block;">Post Review</button>
+              </form>
+            {% else %}
+            <div class = "review_prompt" >
+              <p class = "lead description">There have been no reviews for this quaranthing. Be the first to leave a review!</p>
+              <button class = "btn btn-primary review_btn" onclick="javascript:reviewTrigger();" >Write a Review</button>
+            </div>
+            <form action="http://localhost:8000/quaranthings/process_review" method = "POST" style = "margin-top: 10px; display: none;" class = "review_form" id = "review_form_1">
               {% csrf_token %}
               <label class = "lead" style="display: block;">Rating: </label>
               <span class="star-rating">
-                <input type="radio" name="rating" value="1"><i></i>
-                <input type="radio" name="rating" value="2"><i></i>
-                <input type="radio" name="rating" value="3"><i></i>
-                <input type="radio" name="rating" value="4"><i></i>
-                <input type="radio" name="rating" value="5"><i></i>
+                <input type="radio" name="rating" value="1" ><i></i>
+                <input type="radio" name="rating" value="2" ><i></i>
+                <input type="radio" name="rating" value="3" ><i></i>
+                <input type="radio" name="rating" value="4" ><i></i>
+                <input type="radio" name="rating" value="5" ><i></i>
               </span>
               <label class = "lead" style="display: block; margin-top: 20px;">Review: </label>
               <textarea name="content" id = "review_text" style = "width: 100%; height: 7em;"></textarea>
+              <input type="hidden" name="thing_id" value = "{{quaranthing.id}}">
               <button class = "btn btn-primary ml-auto" style = "display: block;">Post Review</button>
             </form>
-          {% else %}
-          <div class = "review_prompt" >
-            <p class = "lead description">There have been no reviews for this quaranthing. Be the first to leave a review!</p>
-            <button class = "btn btn-primary review_btn" onclick="javascript:reviewTrigger();" >Write a Review</button>
+            {% endif %}
           </div>
-          <form action="http://localhost:8000/quaranthings/{{quaranthing.id}}/process_review" method = "POST" style = "margin-top: 10px; display: none;" class = "review_form">
-            {% csrf_token %}
-            <label class = "lead" style="display: block;">Rating: </label>
-            <span class="star-rating">
-              <input type="radio" name="rating" value="1" ><i></i>
-              <input type="radio" name="rating" value="2" ><i></i>
-              <input type="radio" name="rating" value="3" ><i></i>
-              <input type="radio" name="rating" value="4" ><i></i>
-              <input type="radio" name="rating" value="5" ><i></i>
-            </span>
-            <label class = "lead" style="display: block; margin-top: 20px;">Review: </label>
-            <textarea name="content" id = "review_text" style = "width: 100%; height: 7em;"></textarea>
-            <button class = "btn btn-primary ml-auto" style = "display: block;">Post Review</button>
-          </form>
-          {% endif %}
         </div>
       </div>
-    </div>
-    <div class = "container" id = "related_container">
-      <h3>Other Items You May Like</h3>
-      {% for item in related_things %}
-      {% if item.id == quaranthing.id %}
-      {% else %}
-      <div class="card bg-warning" style="width: 18rem;">
-        <img class="card-img-top" src="{{item.images.all.first.img_file.url}}" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title">{{item.name}}</h5>
-          <p class="card-text">{{item.description}}</p>
-          {% if item.price == 0%}
-          <p class="card-text lead"><strong>Free</strong></p>
-          {% else %}
-          <p class="card-text lead"><strong>${{item.price}}</strong></p>
-          {% endif %}
+      <div class = "container" id = "related_container">
+        <h3>Other Items You May Like</h3>
+        {% for item in related_things %}
+        {% if item.id == quaranthing.id %}
+        {% else %}
+        <div class="card bg-warning" style="width: 18rem;">
+          <img class="card-img-top" src="{{item.images.all.first.img_file.url}}" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">{{item.name}}</h5>
+            <p class="card-text">{{item.description}}</p>
+            {% if item.price == 0%}
+            <p class="card-text lead"><strong>Free</strong></p>
+            {% else %}
+            <p class="card-text lead"><strong>${{item.price}}</strong></p>
+            {% endif %}
+          </div>
         </div>
+        {% endif %}
+        {% endfor %}
       </div>
-      {% endif %}
-      {% endfor %}
     </div>
+    
+
+
+
+
+
+    <script>
+      var previous = "img_1";
+      function reviewTrigger(){
+        var elems = document.getElementsByClassName('review_prompt'),
+        size = elems.length;
+        for(var i = 0; i < size; i++){
+            var prompt = elems[i];
+            prompt.style.display = 'none';
+        }
+        elems = document.getElementsByClassName('review_form');
+        size = elems.length;
+        for(var i = 0; i < size; i++){
+          var form = elems[i];
+          form.style.display = 'block';
+        }
+      }
+      function changeMainPic(img){
+        var mainPicThumbnail = document.getElementById(previous);
+        console.log(mainPicThumbnail);
+        if (img.src != mainPicThumbnail.src){
+          var mainPic = document.getElementById('main_img')
+          mainPicThumbnail.style.border = '1px solid #343b3f';
+          img.style.border = '2px solid #f2af58';
+          mainPic.src = img.src;
+          previous = img.id;
+        }
+      }
+      // $('.review_form').submit(function () {
+        
+      // });
+      $(document).on('submit', '.review_form', function() {
+        console.log($(this).attr('method'));
+        console.log($(this).attr('action'));
+        console.log($(this).serialize());
+        $.ajax({
+            type: $(this).attr('method'),
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            success: function (data) {
+                $('#profile').html(data);
+            },
+            error: function(data) {
+                console.log("something went wrong");
+            }
+        });
+        return false;
+      });
+    </script>
   </body>
 </html>

@@ -47,7 +47,6 @@ def quaranthing(request, num):
         category = Product.objects.get(id = num).categories.all().first()
         quaranthing.views += 1
         quaranthing.save()
-        print(quaranthing.views)
         if Review.objects.filter(product = Product.objects.get(id = num)).all().count() > 0:
             average_rating = Review.objects.filter(product = Product.objects.get(id = num)).all().aggregate(Avg('rating'))['rating__avg']
             rounded_rating = round(average_rating)
@@ -62,11 +61,20 @@ def quaranthing(request, num):
     except User.DoesNotExist:
         return redirect('/')
     
-def process_review(request, num):
-    if request.method == 'POST':    
+def process_review(request):
+    if request.method == 'POST':
+        thing_id = request.POST['thing_id']
+        product = Product.objects.get(id = thing_id)    
         user = User.objects.filter(email = request.session['logged_user']).all().first()
-        Review.objects.create(rating = request.POST['rating'], content = request.POST['content'], user = user, product = Product.objects.get(id = num))
-    return redirect('/quaranthings/{}'.format(num))
+        Review.objects.create(rating = request.POST['rating'], content = request.POST['content'], user = user, product = product)
+        average_rating = Review.objects.filter(product = product).all().aggregate(Avg('rating'))['rating__avg']
+        rounded_rating = round(average_rating)
+        context = {
+            'quaranthing': product,
+            'average_rating': rounded_rating
+        }
+        return render(request, 'partial.html', context)
+    return redirect('/')
 
 
 def delete_review(request, num):
