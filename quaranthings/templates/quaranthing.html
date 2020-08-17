@@ -136,7 +136,7 @@
               <li class="nav-item">
                   <a class="nav-link" href="http://localhost:8000">Home <span class="sr-only">(current)</span></a>
               </li>
-              <li class="nav-item active">
+              <li class="nav-item">
                   <a class="nav-link" href="http://localhost:8000/quaranthings/top_picks">Top Picks<span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item dropdown">
@@ -145,30 +145,30 @@
                       <div class = "row" style="width:600px;">
                           <ul class="list-unstyled col-md-4">
                               <h6 class="dropdown-header">Food</h6>
-                              <li><a class="dropdown-item" href="#">Breakfast</a></li>
-                              <li><a class="dropdown-item" href="#">Lunch</a></li>
-                              <li><a class="dropdown-item" href="#">Dinner</a></li>
-                              <li><a class="dropdown-item" href="#">Cook Together</a></li>
-                              <li><a class="dropdown-item" href="#">Cooking Classes</a></li>
+                              <li><a class="dropdown-item" href="http://localhost:8000/quaranthings/breakfast%20date">Breakfast</a></li>
+                              <li><a class="dropdown-item" href="http://localhost:8000/quaranthings/lunch%20date">Lunch</a></li>
+                              <li><a class="dropdown-item" href="http://localhost:8000/quaranthings/dinner%20date">Dinner</a></li>
+                              <li><a class="dropdown-item" href="http://localhost:8000/quaranthings/cook%20together">Cook Together</a></li>
+                              <li><a class="dropdown-item" href="http://localhost:8000/quaranthings/cooking%20class">Cooking Classes</a></li>
                           </ul>
                           <ul class="list-unstyled col-md-4">
                               <h6 class="dropdown-header">Catch Up</h6>
-                              <li><a class="dropdown-item" href="#">Quick Chat</a></li>
-                              <li><a class="dropdown-item" href="#">Video Call</a></li>
-                              <li><a class="dropdown-item" href="#">Homework Session</a></li>
+                              <li><a class="dropdown-item" href="http://localhost:8000/quaranthings/quick%20chat">Quick Chat</a></li>
+                              <li><a class="dropdown-item" href="http://localhost:8000/quaranthings/video%20call">Video Call</a></li>
+                              <li><a class="dropdown-item" href="http://localhost:8000/quaranthings/homework%20session">Homework Session</a></li>
                               <h6 class="dropdown-header">Games</h6>
-                              <li><a class="dropdown-item" href="#">Gaming Party</a></li>
+                              <li><a class="dropdown-item" href="http://localhost:8000/quaranthings/gaming%20party">Gaming Party</a></li>
                               
-                              <li><a class="dropdown-item" href="#">Board Game Night</a></li>
+                              <li><a class="dropdown-item" href="http://localhost:8000/quaranthings/board%20game%20night">Board Game Night</a></li>
                           </ul>
                           <ul class="list-unstyled col-md-4">
                               <h6 class="dropdown-header">Exercise</h6>
-                              <li><a class="dropdown-item" href="#">Hiking Outing</a></li>
-                              <li><a class="dropdown-item" href="#">Joint Workout</a></li>
+                              <li><a class="dropdown-item" href="http://localhost:8000/quaranthings/hiking%20outing">Hiking Outing</a></li>
+                              <li><a class="dropdown-item" href="http://localhost:8000/quaranthings/joint%20workout">Joint Workout</a></li>
                               <h6 class="dropdown-header">Random Fun</h6>
-                              <li><a class="dropdown-item" href="#">Movie Showing</a></li>
-                              <li><a class="dropdown-item" href="#">Shopping Spree</a></li>
-                              <li><a class="dropdown-item" href="#">Karaoke Jam</a></li>
+                              <li><a class="dropdown-item" href="http://localhost:8000/quaranthings/movie%20showing">Movie Showing</a></li>
+                              <li><a class="dropdown-item" href="http://localhost:8000/quaranthings/shopping%20spree">Shopping Spree</a></li>
+                              <li><a class="dropdown-item" href="http://localhost:8000/quaranthings/karaoke%20jam">Karaoke Jam</a></li>
                           </ul>
                       </div>
                   </div>
@@ -302,7 +302,7 @@
                 <div class = "review_header">
                   <h5><strong>{{review.user.first_name}} {{review.user.last_name}}</strong> wrote on {{review.created_at|date:'M d, Y' }}:</h5>
                   {% if review.user.email == request.session.logged_user %}
-                  <form action="http://localhost:8000/quaranthings/{{quaranthing.id}}/delete_review" method = "POST">
+                  <form action="http://localhost:8000/quaranthings/{{quaranthing.id}}/delete_review" method = "POST" class = "delete_review">
                     {% csrf_token %}
                     <input type="hidden" name="review_id" value = "{{review.id}}">
                     <button class = "btn btn-outline-danger btn-sm ml-auto" >Delete</button>
@@ -323,7 +323,14 @@
                 <p class = "lead" style="margin-left: 10px;">{{review.content}}</p>
               </div>
               {% endfor %}
-              <button class = "btn btn-primary review_btn ml-auto review_prompt" style = "display: block;" onclick="javascript:reviewTrigger();">Write a Review</button>
+              {% if request.session.logged_user %}
+              <button class = "btn btn-primary review_btn" onclick="javascript:reviewTrigger();" >Write a Review</button>
+              {% else %}
+              <p class = "lead description" style="font-size: 12px; margin-bottom: 0px;"><em>Login to leave a review!</em></p>
+              <a href="http://localhost:8000/login" class = "btn btn-primary review_btn">Login</a>
+              
+              
+              {% endif %}
               <form action="http://localhost:8000/quaranthings/process_review" method = "POST" style = "margin-top: 10px; display: none;" class = "review_form" id = "review_form_2">
                 {% csrf_token %}
                 <label class = "lead" style="display: block;">Rating: </label>
@@ -341,8 +348,13 @@
               </form>
             {% else %}
             <div class = "review_prompt" >
+              {% if request.session.logged_user %}
               <p class = "lead description">There have been no reviews for this quaranthing. Be the first to leave a review!</p>
               <button class = "btn btn-primary review_btn" onclick="javascript:reviewTrigger();" >Write a Review</button>
+              {% else %}
+              <p class = "lead description">There have been no reviews for this quaranthing. Login to leave a review!</p>
+              <a href="http://localhost:8000/login" class = "btn btn-primary review_btn">Login</a>
+              {% endif %}
             </div>
             <form action="http://localhost:8000/quaranthings/process_review" method = "POST" style = "margin-top: 10px; display: none;" class = "review_form" id = "review_form_1">
               {% csrf_token %}
@@ -384,11 +396,6 @@
         {% endfor %}
       </div>
     </div>
-    
-
-
-
-
 
     <script>
       var previous = "img_1";
@@ -421,15 +428,63 @@
         
       // });
       $(document).on('submit', '.review_form', function() {
-        console.log($(this).attr('method'));
-        console.log($(this).attr('action'));
-        console.log($(this).serialize());
         $.ajax({
             type: $(this).attr('method'),
             url: $(this).attr('action'),
             data: $(this).serialize(),
             success: function (data) {
                 $('#profile').html(data);
+            },
+            error: function(data) {
+                console.log("something went wrong");
+            }
+        });
+        $.ajax({
+            url: "http://localhost:8000/quaranthings/{{quaranthing.id}}/update_review_header",
+            success: function (data) {
+                $('#profile-tab').html(data);
+            },
+            error: function(data) {
+                console.log("something went wrong");
+            }
+        });
+        $.ajax({
+            url: "http://localhost:8000/quaranthings/{{quaranthing.id}}/update_rating_subtitle",
+            success: function (data) {
+                $('#reviews').html(data);
+            },
+            error: function(data) {
+                console.log("something went wrong");
+            }
+        });
+
+        return false;
+      });
+      $(document).on('submit', '.delete_review', function(){
+        $.ajax({
+            type: $(this).attr('method'),
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            success: function (data) {
+                $('#profile').html(data);
+            },
+            error: function(data) {
+                console.log("something went wrong");
+            }
+        });
+        $.ajax({
+            url: "http://localhost:8000/quaranthings/{{quaranthing.id}}/update_review_header",
+            success: function (data) {
+                $('#profile-tab').html(data);
+            },
+            error: function(data) {
+                console.log("something went wrong");
+            }
+        });
+        $.ajax({
+            url: "http://localhost:8000/quaranthings/{{quaranthing.id}}/update_rating_subtitle",
+            success: function (data) {
+                $('#reviews').html(data);
             },
             error: function(data) {
                 console.log("something went wrong");

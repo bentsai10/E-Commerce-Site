@@ -73,7 +73,7 @@ def process_review(request):
             'quaranthing': product,
             'average_rating': rounded_rating
         }
-        return render(request, 'partial.html', context)
+        return render(request, 'partials/review_section.html', context)
     return redirect('/')
 
 
@@ -81,7 +81,16 @@ def delete_review(request, num):
     if request.method == 'POST':    
         review = Review.objects.get(id = request.POST['review_id'])
         review.delete()
-    return redirect('/quaranthings/{}'.format(num))
+        product = Product.objects.get(id = num)   
+        average_rating = Review.objects.filter(product = product).all().aggregate(Avg('rating'))['rating__avg']
+        rounded_rating = round(average_rating)
+        context = {
+            'quaranthing': product,
+            'average_rating': rounded_rating
+        }
+        return render(request, 'partials/review_section.html', context)
+    else:
+        return redirect('/quaranthings/{}'.format(num))
 
 def delete_quaranthing(request, num):
     if request.method == 'POST':
@@ -106,4 +115,24 @@ def category(request, category):
             'products': Category.objects.filter(name = formatted_category).all().first().products.all()
         }
         return render(request, 'category.html', context)
+
+def update_rating_subtitle(request, num):
+    product = Product.objects.get(id = num)
+    average_rating = Review.objects.filter(product = product).all().aggregate(Avg('rating'))['rating__avg']
+    rounded_rating = round(average_rating)
+    context = {
+        'quaranthing': product,
+        'average_rating': rounded_rating
+    }
+    return render(request, 'partials/rating_subtitle.html', context)
+
+def update_review_header(request, num):
+    product = Product.objects.get(id = num)
+    average_rating = Review.objects.filter(product = product).all().aggregate(Avg('rating'))['rating__avg']
+    rounded_rating = round(average_rating)
+    context = {
+        'quaranthing': product,
+        'average_rating': rounded_rating
+    }
+    return render(request, 'partials/review_header.html', context)
 

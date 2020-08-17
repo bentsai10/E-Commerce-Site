@@ -1,0 +1,9 @@
+Reviews: 
+{% for i in '01234'|make_list %}
+{% if forloop.counter > average_rating or quaranthing.reviews.all.count == 0%}
+<i class="fas fa-star" style="color: grey;"></i>
+{% else %}
+<i class="fas fa-star" style="color: #f2af58;"></i>
+{% endif %}
+{% endfor %}
+({{quaranthing.reviews.all.count}})
