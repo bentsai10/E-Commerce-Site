@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse
-from django.db.models import Avg
+from django.db.models import Avg, Q
 from .models import *
 from login.models import *
 from django.contrib import messages
@@ -100,7 +100,7 @@ def delete_quaranthing(request, num):
 
 def top_picks(request):
     context = {
-        'picks': Product.objects.all().order_by('-views')[:40],
+        'picks': Product.objects.all().order_by('-views')[:40], 
         'categories': Category.objects.all()
     }
     return render(request, 'top_picks.html', context)
@@ -136,3 +136,38 @@ def update_review_header(request, num):
     }
     return render(request, 'partials/review_header.html', context)
 
+category_tags = ["food", "catch_up", "games", "exercise", "random_fun", "wearables", "other"]
+
+#arrays of category id pertinent to specific category tag
+tag_to_category_id = {
+    "food":[1, 2, 3, 4, 21],
+    "catch_up":[5,  6, 12],
+    "games": [9, 13],
+    "exercise": [8,  11],
+    "random_fun" : [ 7,  10, 14],
+    "wearables" : [15, 17, 18], 
+    "other": [16, 19, 20]
+}
+
+
+def filter_tp(request):
+    if request.method == "POST":
+        print(request.POST)
+        chosen_categories = []
+        for tag in category_tags:
+            if tag in request.POST:
+                for category_id in tag_to_category_id[tag]:
+                    chosen_categories.append(category_id)
+        if len(chosen_categories) == 0:
+            filtered_tp = Product.objects.all()
+        else:
+            filtered_tp = Product.objects.filter(categories__in = chosen_categories).all()
+        min = float(request.POST['min']) if request.POST['min'] != '' else 0
+        max = float(request.POST['max']) if request.POST['max'] != '' else 10000
+        filtered_tp = filtered_tp.filter(price__lte = max, price__gte = min)
+        context = {
+            'picks': filtered_tp.order_by("-views")[:40]
+        }
+        return render(request, 'partials/filtered_top_picks.html', context)
+    else:
+        redirect('/quaranthings/top_picks')

@@ -145,9 +145,9 @@
                       <div class = "row" style="width:600px;">
                           <ul class="list-unstyled col-md-4">
                               <h6 class="dropdown-header">Food</h6>
-                              <li><a class="dropdown-item" href="http://localhost:8000/quaranthings/breakfast%20date">Breakfast</a></li>
-                              <li><a class="dropdown-item" href="http://localhost:8000/quaranthings/lunch%20date">Lunch</a></li>
-                              <li><a class="dropdown-item" href="http://localhost:8000/quaranthings/dinner%20date">Dinner</a></li>
+                              <li><a class="dropdown-item" href="http://localhost:8000/quaranthings/breakfast%20date">Breakfast Date</a></li>
+                              <li><a class="dropdown-item" href="http://localhost:8000/quaranthings/lunch%20date">Lunch Date</a></li>
+                              <li><a class="dropdown-item" href="http://localhost:8000/quaranthings/dinner%20date">Dinner Date</a></li>
                               <li><a class="dropdown-item" href="http://localhost:8000/quaranthings/cook%20together">Cook Together</a></li>
                               <li><a class="dropdown-item" href="http://localhost:8000/quaranthings/cooking%20class">Cooking Classes</a></li>
                           </ul>
@@ -424,9 +424,7 @@
           previous = img.id;
         }
       }
-      // $('.review_form').submit(function () {
-        
-      // });
+
       $(document).on('submit', '.review_form', function() {
         $.ajax({
             type: $(this).attr('method'),
