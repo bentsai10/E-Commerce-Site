@@ -39,7 +39,6 @@
                     }
                 }
                 else {
-                    console.log('whoop');
                     var elems = document.getElementsByClassName('activity'),
                     size = elems.length;
                     for(var i = 0; i < size; i++){
@@ -115,6 +114,11 @@
             }
             .h2{
                 font-weight:300 !important;
+            }
+            #profile_pic{
+                border-radius: 50%;
+                height:30px;
+                width:30px;
             }
         </style>
     </head>
@@ -195,8 +199,9 @@
                 </li>
                 {% if request.session.logged_user %}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="user" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle fa-2x"></i></a>
+                    <a class="nav-link dropdown-toggle" href="#" id="user" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% if user.profile_picture %}<img src="{{user.profile_picture.url}}" id = "profile_pic">{% else %}<i class="fas fa-user-circle fa-2x"></i>{% endif %}</a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user">
+                    <a class="dropdown-item" href="http://localhost:8000/edit_profile">Edit Profile</a>
                     <a class="dropdown-item" href="http://localhost:8000/quaranthings/new">Post Quaranthings</a>
                     <a class="dropdown-item" href="#">My Orders</a>
                     <div class="dropdown-divider"></div>
@@ -204,6 +209,7 @@
                     </div>
                 </li>
                 {% else %}
+                
                 <li>
                     <a href="http://localhost:8000/login" class = "btn btn-link" style = "margin-top: 6px;">Login</a>
                 </li>

@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Top Picks</title>
+        <title>Register</title>
         {% load static %}
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
@@ -11,9 +11,8 @@
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <style>
-            .icons{
+            img{
                 height: 40px;
                 width: 40px;
             }
@@ -24,63 +23,34 @@
                 display: block;
             }
             .fa-shopping-cart{
-                margin-top: 10px;
+                margin-top: 8px;
             }
             .fa-shopping-cart:hover{
-                color: white !important;
+              color: white !important;
             }
-            .btn-outline-primary,  .btn-outline-primary:active, .btn-outline-primary:visited {
-                color: #a45fc1 !important;
-                border: 1px solid #a45fc1 !important;
-            }
-            .btn-outline-primary:hover{
+            .btn-primary,  .btn-primary:active, .btn-primary:visited {
                 background-color: #a45fc1 !important;
-                color: white !important;
+                border: none;
             }
-            #main_container{
-                min-width: 100vw !important;
-                display: flex;
+            .btn-primary:hover{
+                background-color: violet !important;
+            }
+            a{
+                color: #f2af58;
+            }
+            a:hover{
+                color:gold;
+            }
+            #profile_pic_preview{
+                height: 200px;
+                width: 200px;
+                border-radius: 50%;
+                display: block;
+                margin: 0px auto;
+                border: 1px solid #f2af58;;
+            }
+            h6{
                 margin-top: 20px;
-            }
-            #sidebar {
-                margin-top: 100px;
-                width: 400px;
-            }
-            #sidebar .card{
-                border: none;
-                height: 700px;
-                margin-bottom: 20px;
-            }
-            #sidebar .card, .title, .icon-control, #sidebar a, #sidebar input, span{
-                color: #a45fc1;
-            }
-            .card-img-top{
-                height:200px;
-            }
-            .card{
-                margin-right: 20px;
-                height: 410px;
-                width: 15rem;
-            }
-            .card-title{
-                color: black
-            }
-            .card-body{
-                overflow: scroll;
-            }
-            .card-footer{
-                border: none;
-                background-color: #f2af58;
-            }
-            .category_text{
-                margin-top: -5px;
-                font-size: 16px;
-            }
-            .form-control{
-                width: 90px;
-            }
-            .bg-warning{
-                background-color: #f2af58 !important;
             }
             #profile_pic{
                 border-radius: 50%;
@@ -88,6 +58,14 @@
                 width:30px;
             }
         </style>
+        <script>
+            var loadFile = function(event) {
+                var section = document.getElementById('output');
+                console.log(URL.createObjectURL(event.target.files[0]));
+                var output = "<img src = '" + URL.createObjectURL(event.target.files[0]) + "' id = 'profile_pic_preview'>";
+                document.getElementById('output').innerHTML = output;
+            };
+        </script>
     </head>
     <body>
         <nav class="navbar navbar-expand-md bg-dark navbar-dark">
@@ -100,7 +78,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="http://localhost:8000">Home <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="http://localhost:8000/quaranthings/top_picks">Top Picks<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item dropdown">
@@ -185,126 +163,39 @@
       
             </div>
         </nav>
-        <div class = "container" id = "main_container">
-            <div id = "sidebar">
-                <h3 style="opacity: 70%; margin-left:10px; margin-top: -30px;">Filters</h3>
-                <div class="card">
-                    <form action="http://localhost:8000/quaranthings/top_picks/filter" method = "POST" id = "filter_form">
-                        {% csrf_token %}
-                        <article class="filter-group">
-                            <header class="card-header"> 
-                                <a href="#" data-toggle="collapse" data-target="#collapse_aside1" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
-                                    <h6 class="title">Categories</h6>
-                                </a> 
-                            </header>
-                            <div class="filter-content collapse" id="collapse_aside1">
-                                <div class="card-body" >
-                                    <div class = "category_filter">
-                                        <label class="checkbox-btn"> <input type="checkbox" class = "checkbox" name = "food"> <span class="btn category_text"> Food</span> </label>
-                                    </div> 
-                                    <div class = "category_filter">
-                                        <label class="checkbox-btn"> <input type="checkbox" class = "checkbox" name = "catch_up"> <span class="btn category_text"> Catch Up</span></label>
-                                    </div> 
-                                    <div class = "category_filter">
-                                        <label class="checkbox-btn"> <input type="checkbox" class = "checkbox" name = "games"> <span class="btn category_text"> Games</span></label>
-                                    </div> 
-                                    <div class = "category_filter">
-                                        <label class="checkbox-btn"> <input type="checkbox" class = "checkbox" name = "exercise"> <span class="btn category_text"> Exercise</span></label>
-                                    </div>
-                                    <div class = "category_filter">
-                                        <label class="checkbox-btn"> <input type="checkbox" class = "checkbox" name = "random_fun"> <span class="btn category_text"> Random Fun</span></label>
-                                    </div>
-                                    <div class = "category_filter">
-                                        <label class="checkbox-btn"> <input type="checkbox" class = "checkbox" name = "wearables" > <span class="btn category_text"> Wearables</span></label>
-                                    </div>
-                                    <div class = "category_filter">
-                                        <label class="checkbox-btn"> <input type="checkbox" class = "checkbox" name = "other"> <span class="btn category_text"> Other</span></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                        <article class="filter-group">
-                            <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside2" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
-                                    <h6 class="title">Price </h6>
-                                </a> </header>
-                            <div class="filter-content collapse" id="collapse_aside2">
-                                <div class="card-body"> 
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6"> <label>Min</label> <input class="form-control" type="number" name = "min" min = "0" max = "10000"> </div>
-                                            <div class="form-group text-right col-md-6"> <label>Max</label> <input class="form-control float-right" type="number" name = "max" min = "0" max = "10000"> </div>
-                                        </div> 
-                                        <button class = "highlight-button btn btn-md btn-outline-primary btn-block ">Apply</button>
-                                </div>
-                            </div>
-                        </article>
-                    </form>
-                </div>
-            </div>
-            <div class = "container" id = "middle_container">
-                <h1 class = "display-4">Quaranthings' Top Picks</h1>
-                <p class = "lead" style="opacity: 40%; margin-top: -10px;">The most popular items among our users</p>
-                <div style = "display:flex;">
-                    {% for pick in picks %}
-                    {% if forloop.counter0|divisibleby:4 %}
-                    </div>
-                    <div style="display: flex; margin-bottom: 20px;">
-                        <div class="card bg-warning">
-                            <img class="card-img-top" src="{{pick.images.all.first.img_file.url}}" alt="Card image cap">
-                            <div class="card-body">
-                                <a href="http://localhost:8000/quaranthings/{{pick.id}}" class = "card-title h5">{{pick.name}}</a>
-                              <p class="card-text">{{pick.description}}</p>
-                              
-                            </div>
-                            <div class = "card-footer">
-                                {% if pick.price == 0%}
-                                <p class="card-text lead"><strong>Free</strong></p>
-                                {% else %}
-                                <p class="card-text lead"><strong>${{pick.price}}</strong></p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% else %}
-                        <div class="card bg-warning">
-                            <img class="card-img-top" src="{{pick.images.all.first.img_file.url}}" alt="Card image cap">
-                            <div class="card-body">
-                                <a href="http://localhost:8000/quaranthings/{{pick.id}}" class = "card-title h5">{{pick.name}}</a>
-                                <p class="card-text">{{pick.description}}</p>
-                            </div>
-                            <div class = "card-footer">
-                                {% if pick.price == 0%}
-                                <p class="card-text lead"><strong>Free</strong></p>
-                                {% else %}
-                                <p class="card-text lead"><strong>${{pick.price}}</strong></p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% endif %}
+        <div class = "container" style = "width: 25vw; margin-top: 10px;">
+            <h1 class = "display-4">Edit Profile</h1>
+            <form action="http://localhost:8000/process_profile_edit" method = "POST" style="margin-top: 20px;" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if messages %}
+                <ul style="list-style-type: square; margin-left: -20px;">
+                    {% for message in messages %}
+                    <li style="color: red; font-size: 12px;">{{message}}</li>
                     {% endfor %}
+                </ul>
+                {% endif %}
+                <h6><em>Upload Profile Picture:</em></h6>
+                <div class = "field">
+                    {% if user.profile_picture %}
+                    <p id="output"><img src = '{{user.profile_picture.url}}' id = 'profile_pic_preview'></p>
+                    {% else %}
+                    <p id="output"></p>
+                    {% endif %}
+                    <input type="file"  accept="image/*" name="image" id="file"  onchange="loadFile(event)" style="display: none;">
+                    <label class = "btn btn-primary btn-block" for="file" style="cursor: pointer;">Upload Image</label>
+                    
                 </div>
-            </div>
+                <h6><em>Change Password:</em></h6>
+                <label class = "lead" style="margin-top: 10px;">Previous Password:</label>
+                <input type="password" style="width: 100%" name = "old_pw">
+                <label class = "lead" style="margin-top: 10px;">New Password:</label>
+                <input type="password" style="width: 100%" name = "new_pw">
+                <label class = "lead" style="margin-top: 10px;">Confirm Password:</label>
+                <input type="password" style="width: 100%" name = "new_pw_conf">
+                <input type="hidden" name="email" value = "{{request.session.logged_user}}">
+                <button class="btn btn-primary ml-auto" style="display: block; margin-top: 20px;">Save Changes</button>
+
+            </form>
         </div>
-
-
-
-        <script>
-            $(document).on('click', '.checkbox', function() {
-                console.log("checkbox clicked");
-                $('#filter_form').submit();
-            });
-            $(document).on('submit', '#filter_form', function() {
-                $.ajax({
-                    type: $(this).attr('method'),
-                    url: $(this).attr('action'),
-                    data: $(this).serialize(),
-                    success: function (data) {
-                        $('#middle_container').html(data);
-                    },
-                    error: function(data) {
-                        console.log("something went wrong");
-                    }
-                });
-                return false;
-            });
-          </script>
     </body>
 </html>

@@ -44,6 +44,17 @@ class UserManager(models.Manager):
         else:
             errors["email"] = "This email has not been registered!"
         return errors
+    def password_validator(self, postData):
+        errors = {}
+        lower_email = postData['email'].lower()
+        user = User.objects.filter(email=lower_email)[0]
+        if not bcrypt.checkpw(postData['old_pw'].encode(), user.password.encode()):
+            errors["old_pw"] = "Your previous password is incorrect!"
+        if len(postData['new_pw']) < 8:
+            errors['new_pw'] = "New password must be at least 8 characters!"
+        if postData['new_pw_conf'] != postData['new_pw']:
+            errors['new_pw_conf'] = "Your new passwords don't match!"
+        return errors
 
 class User(models.Model):
     first_name = models.CharField(max_length = 255)
@@ -51,6 +62,7 @@ class User(models.Model):
     birthdate = models.DateField()
     email = models.CharField(max_length = 255)
     password = models.CharField(max_length = 255)
+    profile_picture = models.ImageField(upload_to='images/profile_pictures/', blank = True) 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()

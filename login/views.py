@@ -5,7 +5,13 @@ from django.contrib import messages
 
 # Create your views here.
 def index(request):
-    return render(request, 'home.html')
+    if 'logged_user' in request.session:
+        context = {
+            'user': User.objects.filter(email = request.session['logged_user']).all().first()
+        }
+        return render(request, 'home.html', context)
+    else:
+        return render(request, 'home.html')
 
 def login(request):
     if 'logged_user' in request.session:
@@ -57,3 +63,40 @@ def logout(request):
     if 'logged_user' in request.session:
         del request.session['logged_user']
     return redirect('/')
+
+def edit_profile(request):
+    if 'logged_user' in request.session:
+        context = {
+            'user': User.objects.filter(email = request.session['logged_user']).all().first()
+        }
+        return render(request, 'edit_profile.html', context)
+    else:
+        return redirect('/login')
+
+def process_profile_edit(request):
+    if request.method == "POST":
+        print(request.FILES)
+        if request.POST['old_pw'] != "" or request.POST['new_pw'] != "" or request.POST['new_pw_conf'] != "":
+            errors = User.objects.password_validator(request.POST)
+            if len(errors) > 0:
+                for key, value in errors.items():
+                    messages.error(request, value)
+                return redirect('/edit_profile') 
+            else:
+                user = User.objects.filter(email = request.session['logged_user']).first()
+                if len(request.FILES) > 0:
+                    for image in request.FILES.getlist('image'):
+                        user.profile_picture = image
+                password = request.POST['new_pw']
+                pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+                user.password = pw_hash
+                return redirect('/') 
+        if len(request.FILES) > 0:
+            print("getting here")
+            user = User.objects.filter(email = request.session['logged_user']).all().first()
+            user.profile_picture = request.FILES.getlist('image')[0]
+            user.save()
+            return redirect('/')
+        return redirect('/')
+    else:
+        return redirect('/edit_profile')

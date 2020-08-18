@@ -7,18 +7,20 @@ from django.contrib import messages
 # Create your views here.
 
 def new_quaranthing(request):
-    context = {
-        'activity_categories':Category.objects.filter(category_type = 'activity').all(),
-        'diy_categories': Category.objects.filter(category_type = 'DIY Item').all()
-    }
-    return render(request, 'new_quaranthing.html', context)
+    if 'logged_user' not in request.session:
+        return redirect('/login')
+    else: 
+        context = {
+            'user': User.objects.filter(email = request.session['logged_user']).all().first(),
+            'activity_categories':Category.objects.filter(category_type = 'activity').all(),
+            'diy_categories': Category.objects.filter(category_type = 'DIY Item').all()
+        }
+        return render(request, 'new_quaranthing.html', context)
 
 def process_new_quaranthing(request):
     if request.method == "GET":
         return redirect('/quaranthings/new')
     else:
-        print('user uploaded', len(request.FILES), 'files')
-        print(request.FILES.getlist('image'))
         errors = Product.objects.validator(request.POST, request.FILES)
         if len(errors) > 0:
             for key, value in errors.items():
@@ -57,6 +59,8 @@ def quaranthing(request, num):
             'related_things': category.products.all(),
             'average_rating': rounded_rating
         }
+        if 'logged_user' in request.session:
+            context['user'] = User.objects.filter(email = request.session['logged_user']).all().first()
         return render(request, 'quaranthing.html', context)
     except User.DoesNotExist:
         return redirect('/')
@@ -101,8 +105,10 @@ def delete_quaranthing(request, num):
 def top_picks(request):
     context = {
         'picks': Product.objects.all().order_by('-views')[:40], 
-        'categories': Category.objects.all()
+        'categories': Category.objects.all(),'user': User.objects.filter(email = request.session['logged_user']).all().first()
     }
+    if 'logged_user' in request.session:
+        context['user'] = User.objects.filter(email = request.session['logged_user']).all().first()
     return render(request, 'top_picks.html', context)
 
 def category(request, category):
@@ -114,6 +120,8 @@ def category(request, category):
             'category': Category.objects.filter(name = formatted_category).all().first(),
             'products': Category.objects.filter(name = formatted_category).all().first().products.all()
         }
+        if 'logged_user' in request.session:
+            context['user'] = User.objects.filter(email = request.session['logged_user']).all().first()
         return render(request, 'category.html', context)
 
 def update_rating_subtitle(request, num):
