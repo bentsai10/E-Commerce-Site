@@ -3,8 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Top Picks</title>
-        {% load static %}
+        <title>Quarangivers</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
@@ -12,6 +11,7 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        {% load static %}
         <style>
             .icons{
                 height: 40px;
@@ -37,30 +37,29 @@
                 background-color: #a45fc1 !important;
                 color: white !important;
             }
-            #main_container{
-                min-width: 100vw !important;
-                display: flex;
-                margin-top: 20px;
+            #profile_pic{
+                border-radius: 50%;
+                height:30px;
+                width:30px;
             }
-            #sidebar {
-                margin-top: 100px;
-                width: 400px;
+            .container{
+                min-width: 60vw;
             }
-            #sidebar .card{
-                border: none;
-                height: 700px;
-                margin-bottom: 20px;
-            }
-            #sidebar .card, .title, .icon-control, #sidebar a, #sidebar input, span{
-                color: #a45fc1;
+            #profile_pic_preview{
+                height: 350px;
+                width: 350px;
+                border-radius: 50%;
+                display: block;
+                margin: 0px auto;
+                border: 1px solid #f2af58;
             }
             .card-img-top{
                 height:200px;
             }
             .card{
-                margin-right: 20px;
+                margin-left: 20px;
                 height: 410px;
-                width: 15rem;
+                width: 250px;
             }
             .card-title{
                 color: black
@@ -72,20 +71,14 @@
                 border: none;
                 background-color: #f2af58;
             }
-            .category_text{
-                margin-top: -5px;
-                font-size: 16px;
-            }
-            .form-control{
-                width: 90px;
-            }
             .bg-warning{
                 background-color: #f2af58 !important;
             }
-            #profile_pic{
-                border-radius: 50%;
-                height:30px;
-                width:30px;
+            #listing_container{
+                min-width: 50vw !important;
+            }
+            a:hover{
+                color: #a45fc1;
             }
         </style>
     </head>
@@ -100,7 +93,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="http://localhost:8000">Home <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="http://localhost:8000/quaranthings/top_picks">Top Picks<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item dropdown">
@@ -185,126 +178,55 @@
       
             </div>
         </nav>
-        <div class = "container" id = "main_container">
-            <div id = "sidebar">
-                <h3 style="opacity: 70%; margin-left:10px; margin-top: -30px;">Filters</h3>
-                <div class="card">
-                    <form action="http://localhost:8000/quaranthings/top_picks/filter" method = "POST" id = "filter_form">
-                        {% csrf_token %}
-                        <article class="filter-group">
-                            <header class="card-header"> 
-                                <a href="#" data-toggle="collapse" data-target="#collapse_aside1" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
-                                    <h6 class="title">Categories</h6>
-                                </a> 
-                            </header>
-                            <div class="filter-content collapse" id="collapse_aside1">
-                                <div class="card-body" >
-                                    <div class = "category_filter">
-                                        <label class="checkbox-btn"> <input type="checkbox" class = "checkbox" name = "food"> <span class="btn category_text"> Food</span> </label>
-                                    </div> 
-                                    <div class = "category_filter">
-                                        <label class="checkbox-btn"> <input type="checkbox" class = "checkbox" name = "catch_up"> <span class="btn category_text"> Catch Up</span></label>
-                                    </div> 
-                                    <div class = "category_filter">
-                                        <label class="checkbox-btn"> <input type="checkbox" class = "checkbox" name = "games"> <span class="btn category_text"> Games</span></label>
-                                    </div> 
-                                    <div class = "category_filter">
-                                        <label class="checkbox-btn"> <input type="checkbox" class = "checkbox" name = "exercise"> <span class="btn category_text"> Exercise</span></label>
-                                    </div>
-                                    <div class = "category_filter">
-                                        <label class="checkbox-btn"> <input type="checkbox" class = "checkbox" name = "random_fun"> <span class="btn category_text"> Random Fun</span></label>
-                                    </div>
-                                    <div class = "category_filter">
-                                        <label class="checkbox-btn"> <input type="checkbox" class = "checkbox" name = "wearables" > <span class="btn category_text"> Wearables</span></label>
-                                    </div>
-                                    <div class = "category_filter">
-                                        <label class="checkbox-btn"> <input type="checkbox" class = "checkbox" name = "other"> <span class="btn category_text"> Other</span></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                        <article class="filter-group">
-                            <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside2" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
-                                    <h6 class="title">Price </h6>
-                                </a> </header>
-                            <div class="filter-content collapse" id="collapse_aside2">
-                                <div class="card-body"> 
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6"> <label>Min</label> <input class="form-control" type="number" name = "min" min = "0" max = "10000"> </div>
-                                            <div class="form-group text-right col-md-6"> <label>Max</label> <input class="form-control float-right" type="number" name = "max" min = "0" max = "10000"> </div>
-                                        </div> 
-                                        <button class = "highlight-button btn btn-md btn-outline-primary btn-block ">Apply</button>
-                                </div>
-                            </div>
-                        </article>
-                    </form>
-                </div>
-            </div>
-            <div class = "container" id = "middle_container">
-                <h1 class = "display-4">Quaranthings' Top Picks</h1>
-                <p class = "lead" style="opacity: 40%; margin-top: -10px;">The most popular items among our users</p>
-                <div style = "display:flex;">
-                    {% for pick in picks %}
-                    {% if forloop.counter0|divisibleby:4 %}
-                    </div>
-                    <div style="display: flex; margin-bottom: 20px;">
-                        <div class="card bg-warning">
-                            <img class="card-img-top" src="{{pick.images.all.first.img_file.url}}" alt="Card image cap">
-                            <div class="card-body">
-                                <a href="http://localhost:8000/quaranthings/{{pick.id}}" class = "card-title h5">{{pick.name}}</a>
-                              <p class="card-text">{{pick.description}}</p>
-                              
-                            </div>
-                            <div class = "card-footer">
-                                {% if pick.price == 0%}
-                                <p class="card-text lead"><strong>Free</strong></p>
-                                {% else %}
-                                <p class="card-text lead"><strong>${{pick.price}}</strong></p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% else %}
-                        <div class="card bg-warning">
-                            <img class="card-img-top" src="{{pick.images.all.first.img_file.url}}" alt="Card image cap">
-                            <div class="card-body">
-                                <a href="http://localhost:8000/quaranthings/{{pick.id}}" class = "card-title h5">{{pick.name}}</a>
-                                <p class="card-text">{{pick.description}}</p>
-                            </div>
-                            <div class = "card-footer">
-                                {% if pick.price == 0%}
-                                <p class="card-text lead"><strong>Free</strong></p>
-                                {% else %}
-                                <p class="card-text lead"><strong>${{pick.price}}</strong></p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
+        <div class = "container" style = "width: 25vw; margin-top: 10px;">
+            <h1 class = "display-4">{{quarangiver.first_name}} {{quarangiver.last_name}}</h1>
+            {% if user.profile_picture %}
+            <p id="output"><img src = '{{user.profile_picture.url}}' id = 'profile_pic_preview'></p>
+            {% else %}
+            <p id="output"><img src = "{% static 'profile_placeholder.png'%}" id = 'profile_pic_preview'></p>
+            {% endif %}
         </div>
-
-
-
-        <script>
-            $(document).on('click', '.checkbox', function() {
-                console.log("checkbox clicked");
-                $('#filter_form').submit();
-            });
-            $(document).on('submit', '#filter_form', function() {
-                $.ajax({
-                    type: $(this).attr('method'),
-                    url: $(this).attr('action'),
-                    data: $(this).serialize(),
-                    success: function (data) {
-                        $('#middle_container').html(data);
-                    },
-                    error: function(data) {
-                        console.log("something went wrong");
-                    }
-                });
-                return false;
-            });
-          </script>
+        <div class = "container" id = "listing_container">
+            <h3>{{user.first_name}}'s Listings</h3>
+            <div id = "items">
+                {% for product in quarangiver.products_listed.all %}
+                {% if forloop.counter0|divisibleby:4 %}
+                </div>
+                <div style="display: flex; margin-bottom: 20px;">
+                    <div class="card bg-warning">
+                        <img class="card-img-top" src="{{product.images.all.first.img_file.url}}" alt="Card image cap">
+                        <div class="card-body">
+                            <a href="http://localhost:8000/quaranthings/{{product.id}}" class = "card-title h5">{{product.name}}</a>
+                          <p class="card-text">{{product.description}}</p>
+                          
+                        </div>
+                        <div class = "card-footer">
+                            {% if product.price == 0%}
+                            <p class="card-text lead"><strong>Free</strong></p>
+                            {% else %}
+                            <p class="card-text lead"><strong>${{product.price}}</strong></p>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="card bg-warning">
+                        <img class="card-img-top" src="{{product.images.all.first.img_file.url}}" alt="Card image cap">
+                        <div class="card-body">
+                            <a href="http://localhost:8000/quaranthings/{{product.id}}" class = "card-title h5">{{product.name}}</a>
+                            <p class="card-text">{{product.description}}</p>
+                        </div>
+                        <div class = "card-footer">
+                            {% if product.price == 0%}
+                            <p class="card-text lead"><strong>Free</strong></p>
+                            {% else %}
+                            <p class="card-text lead"><strong>${{product.price}}</strong></p>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            
+        </div>
     </body>
 </html>

@@ -44,8 +44,8 @@ def process_new_quaranthing(request):
             return redirect('/quaranthings/{}'.format(quaranthing.id))
 
 def quaranthing(request, num):
-    try:
-        quaranthing = Product.objects.get(id = num)
+    if Product.objects.filter(id = num).all().count() > 0:
+        quaranthing = Product.objects.filter(id = num).all().first()
         category = Product.objects.get(id = num).categories.all().first()
         quaranthing.views += 1
         quaranthing.save()
@@ -56,14 +56,14 @@ def quaranthing(request, num):
             rounded_rating = 0
         context = {
             'quaranthing': quaranthing,
-            'related_things': category.products.all(),
+            'related_things': category.products.all().order_by('-created_at')[:5],
             'average_rating': rounded_rating
         }
         if 'logged_user' in request.session:
             context['user'] = User.objects.filter(email = request.session['logged_user']).all().first()
         return render(request, 'quaranthing.html', context)
-    except User.DoesNotExist:
-        return redirect('/')
+    else:
+        return redirect('/quaranthings/top_picks')
     
 def process_review(request):
     if request.method == 'POST':

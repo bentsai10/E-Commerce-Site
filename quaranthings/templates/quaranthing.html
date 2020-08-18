@@ -113,18 +113,21 @@
         outline: none;
         margin-bottom: -40px;
       }
-      .carousel{
-        width: 1500px !important;
-        height:700px !important;
-      }
-      .carousel-item img, #carouselExampleIndicators{
-        height: 700px;
-        width: 700px;
-      }
       #profile_pic{
-                border-radius: 50%;
-                height:30px;
-                width:30px;
+        border-radius: 50%;
+        height:30px;
+        width:30px;
+      }
+      .card{
+        height: 400px;
+        width:200px;
+        margin-right: 20px;
+      }
+      .card-img-top{
+        height:200px;
+      }
+      #items{
+        display: flex;
       }
     </style>
     <link rel="stylesheet" href="{% static 'css/quaranthing_style.css'%}">
@@ -192,7 +195,7 @@
                   </div>
               </li>
               <li class="nav-item">
-                  <a class="nav-link" href="#">Find Quarangivers</a>
+                  <a class="nav-link" href="http://localhost:8000/users">Find Quarangivers</a>
               </li>
           </ul>
   
@@ -383,23 +386,26 @@
       </div>
       <div class = "container" id = "related_container">
         <h3>Other Items You May Like</h3>
-        {% for item in related_things %}
-        {% if item.id == quaranthing.id %}
-        {% else %}
-        <div class="card bg-warning" style="width: 18rem;">
-          <img class="card-img-top" src="{{item.images.all.first.img_file.url}}" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">{{item.name}}</h5>
-            <p class="card-text">{{item.description}}</p>
-            {% if item.price == 0%}
-            <p class="card-text lead"><strong>Free</strong></p>
-            {% else %}
-            <p class="card-text lead"><strong>${{item.price}}</strong></p>
-            {% endif %}
+        <div id = "items">
+          {% for item in related_things %}
+          {% if item.id == quaranthing.id %}
+          {% else %}
+          <div class="card bg-warning" style="width: 18rem;">
+            <img class="card-img-top" src="{{item.images.all.first.img_file.url}}" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">{{item.name}}</h5>
+              <p class="card-text">{{item.description}}</p>
+              {% if item.price == 0%}
+              <p class="card-text lead"><strong>Free</strong></p>
+              {% else %}
+              <p class="card-text lead"><strong>${{item.price}}</strong></p>
+              {% endif %}
+            </div>
           </div>
+          {% endif %}
+          {% endfor %}
         </div>
-        {% endif %}
-        {% endfor %}
+        
       </div>
     </div>
 
