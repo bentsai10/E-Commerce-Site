@@ -5,7 +5,7 @@
         <div class = "review_header">
           <h5><strong>{{review.user.first_name}} {{review.user.last_name}}</strong> wrote on {{review.created_at|date:'M d, Y' }}:</h5>
           {% if review.user.email == request.session.logged_user %}
-          <form action="http://localhost:8000/quaranthings/{{quaranthing.id}}/delete_review" method = "POST">
+          <form action="http://localhost:8000/quaranthings/{{quaranthing.id}}/delete_review" method = "POST" class = "delete_review">
             {% csrf_token %}
             <input type="hidden" name="review_id" value = "{{review.id}}">
             <button class = "btn btn-outline-danger btn-sm ml-auto" >Delete</button>

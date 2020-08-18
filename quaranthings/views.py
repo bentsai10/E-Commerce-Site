@@ -152,7 +152,6 @@ tag_to_category_id = {
 
 def filter_tp(request):
     if request.method == "POST":
-        print(request.POST)
         chosen_categories = []
         for tag in category_tags:
             if tag in request.POST:
@@ -166,8 +165,26 @@ def filter_tp(request):
         max = float(request.POST['max']) if request.POST['max'] != '' else 10000
         filtered_tp = filtered_tp.filter(price__lte = max, price__gte = min)
         context = {
-            'picks': filtered_tp.order_by("-views")[:40]
+            'picks': filtered_tp.order_by("-views")
         }
         return render(request, 'partials/filtered_top_picks.html', context)
     else:
-        redirect('/quaranthings/top_picks')
+        return redirect('/quaranthings/top_picks')
+
+def filter_category(request, cat):
+    print(cat)
+    if request.method == "POST":
+        print(request.POST)
+        category = Category.objects.get(id = request.POST['category_id'])
+        chosen_categories = [category.id]
+        filtered_tp = Product.objects.filter(categories__in = chosen_categories).all()
+        min = float(request.POST['min']) if request.POST['min'] != '' else 0
+        max = float(request.POST['max']) if request.POST['max'] != '' else 10000
+        filtered_tp = filtered_tp.filter(price__lte = max, price__gte = min)
+        context = {
+            'category': category,
+            'products': filtered_tp.order_by("-views")
+        }
+        return render(request, 'partials/filtered_category.html', context)
+    else:
+        return redirect('/quaranthings/{}'.format(cat))

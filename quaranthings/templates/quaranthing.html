@@ -459,6 +459,7 @@
         return false;
       });
       $(document).on('submit', '.delete_review', function(){
+        console.log("we are getting here!")
         $.ajax({
             type: $(this).attr('method'),
             url: $(this).attr('action'),
