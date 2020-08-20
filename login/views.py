@@ -1,27 +1,46 @@
 from django.shortcuts import render, redirect
 from .models import *
+from quaranthings.models import *
 import bcrypt
 from django.contrib import messages
 
 # Create your views here.
 def index(request):
     if 'logged_user' in request.session:
+        user = User.objects.filter(email = request.session['logged_user']).all().first()
+        total_quantity = 0
+        if Order.objects.filter(user = user).filter(ordered = False).all().count() > 0:
+            order_items = Order.objects.filter(user = user).filter(ordered = False).all().first().products.all()
+            for item in order_items:
+                total_quantity += item.quantity
         context = {
-            'user': User.objects.filter(email = request.session['logged_user']).all().first()
+            'user': user,
+            'cart_count': total_quantity
         }
         return render(request, 'home.html', context)
     else:
-        return render(request, 'home.html')
+        context = {
+            'cart_count': 0
+        }
+        return render(request, 'home.html', context)
 
 def login(request):
     if 'logged_user' in request.session:
         return redirect('/')
-    return render(request, 'login.html')
+    else:
+        context = {
+            'cart_count': 0
+        }
+        return render(request, 'login.html')
 
 def register(request):
     if 'logged_user' in request.session:
         return redirect('/')
-    return render(request, 'register.html')
+    else:
+        context = {
+            'cart_count': 0
+        }
+        return render(request, 'register.html', context)
 
 def process_register(request):
     if request.method == "GET":
@@ -66,8 +85,15 @@ def logout(request):
 
 def edit_profile(request):
     if 'logged_user' in request.session:
+        user = User.objects.filter(email = request.session['logged_user']).all().first()
+        total_quantity = 0
+        if Order.objects.filter(user = user).filter(ordered = False).all().count() > 0:
+            order_items = Order.objects.filter(user = user).filter(ordered = False).all().first().products.all()
+            for item in order_items:
+                total_quantity += item.quantity
         context = {
-            'user': User.objects.filter(email = request.session['logged_user']).all().first()
+            'user': user,
+            'cart_count':total_quantity
         }
         return render(request, 'edit_profile.html', context)
     else:

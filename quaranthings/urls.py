@@ -13,5 +13,6 @@ urlpatterns = [
     path('/<int:num>/update_rating_subtitle', views.update_rating_subtitle),
     path('/<int:num>/update_review_header', views.update_review_header),
     path('/top_picks/filter', views.filter_tp),
-    path('/<str:cat>/filter', views.filter_category)
+    path('/<str:cat>/filter', views.filter_category),
+    path('/<int:num>/add_to_cart', views.add_to_cart)
 ]

@@ -10,10 +10,17 @@ def new_quaranthing(request):
     if 'logged_user' not in request.session:
         return redirect('/login')
     else: 
+        user = User.objects.filter(email = request.session['logged_user']).all().first()
+        total_quantity = 0
+        if Order.objects.filter(user = user).filter(ordered = False).all().count() > 0:
+            order_items = Order.objects.filter(user = user).filter(ordered = False).all().first().products.all()
+            for item in order_items:
+                total_quantity += item.quantity
         context = {
-            'user': User.objects.filter(email = request.session['logged_user']).all().first(),
+            'user': user,
             'activity_categories':Category.objects.filter(category_type = 'activity').all(),
-            'diy_categories': Category.objects.filter(category_type = 'DIY Item').all()
+            'diy_categories': Category.objects.filter(category_type = 'DIY Item').all(),
+            'cart_count': total_quantity
         }
         return render(request, 'new_quaranthing.html', context)
 
@@ -60,7 +67,16 @@ def quaranthing(request, num):
             'average_rating': rounded_rating
         }
         if 'logged_user' in request.session:
-            context['user'] = User.objects.filter(email = request.session['logged_user']).all().first()
+            user = User.objects.filter(email = request.session['logged_user']).all().first()
+            total_quantity = 0
+            if Order.objects.filter(user = user).filter(ordered = False).all().count() > 0:
+                order_items = Order.objects.filter(user = user).filter(ordered = False).all().first().products.all()
+                for item in order_items:
+                    total_quantity += item.quantity
+            context['user'] = user
+            context['cart_count'] = total_quantity
+        else: 
+            context['cart_count'] = 0
         return render(request, 'quaranthing.html', context)
     else:
         return redirect('/quaranthings/top_picks')
@@ -105,10 +121,19 @@ def delete_quaranthing(request, num):
 def top_picks(request):
     context = {
         'picks': Product.objects.all().order_by('-views')[:40], 
-        'categories': Category.objects.all(),'user': User.objects.filter(email = request.session['logged_user']).all().first()
+        'categories': Category.objects.all(),
     }
     if 'logged_user' in request.session:
-        context['user'] = User.objects.filter(email = request.session['logged_user']).all().first()
+        user = User.objects.filter(email = request.session['logged_user']).all().first()
+        total_quantity = 0
+        if Order.objects.filter(user = user).filter(ordered = False).all().count() > 0:
+            order_items = Order.objects.filter(user = user).filter(ordered = False).all().first().products.all()
+            for item in order_items:
+                total_quantity += item.quantity
+        context['user'] = user
+        context['cart_count'] = total_quantity
+    else:
+        context['cart_count'] = 0
     return render(request, 'top_picks.html', context)
 
 def category(request, category):
@@ -118,10 +143,19 @@ def category(request, category):
     else:
         context = {
             'category': Category.objects.filter(name = formatted_category).all().first(),
-            'products': Category.objects.filter(name = formatted_category).all().first().products.all()
+            'products': Category.objects.filter(name = formatted_category).all().first().products.all(),
         }
         if 'logged_user' in request.session:
-            context['user'] = User.objects.filter(email = request.session['logged_user']).all().first()
+            user = User.objects.filter(email = request.session['logged_user']).all().first()
+            total_quantity = 0
+            if Order.objects.filter(user = user).filter(ordered = False).all().count() > 0:
+                order_items = Order.objects.filter(user = user).filter(ordered = False).all().first().products.all()
+                for item in order_items:
+                    total_quantity += item.quantity
+            context['user'] = user
+            context['cart_count'] = total_quantity
+        else:
+            context['cart_count'] = 0
         return render(request, 'category.html', context)
 
 def update_rating_subtitle(request, num):
@@ -180,7 +214,6 @@ def filter_tp(request):
         return redirect('/quaranthings/top_picks')
 
 def filter_category(request, cat):
-    print(cat)
     if request.method == "POST":
         print(request.POST)
         category = Category.objects.get(id = request.POST['category_id'])
@@ -196,3 +229,17 @@ def filter_category(request, cat):
         return render(request, 'partials/filtered_category.html', context)
     else:
         return redirect('/quaranthings/{}'.format(cat))
+
+def add_to_cart(request, num):
+    if request.method == "POST":
+        user = User.objects.filter(email = request.session['logged_user']).all().first()
+        if Order.objects.filter(user = user).filter(ordered = False).all().count() > 0:
+            cart = Order.objects.filter(user = user).filter(ordered = False).all().first()
+        else:
+            cart = Order.objects.create(user = user)
+        product = Product.objects.get(id = num)
+        order_item = OrderItem.objects.create(product = product, quantity = request.POST['quantity'])
+        cart.products.add(order_item)
+        return redirect('/users/cart')
+    else:
+        return redirect('/quaranthings/{}'.format(num))

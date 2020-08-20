@@ -3,17 +3,16 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Quarangivers</title>
+        <title>Shopping Cart</title>
+        {% load static %}
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        {% load static %}
         <style>
-            .icons{
+            img{
                 height: 40px;
                 width: 40px;
             }
@@ -24,18 +23,17 @@
                 display: block;
             }
             .fa-shopping-cart{
-                margin-top: 10px;
+                margin-top: 8px;
             }
             .fa-shopping-cart:hover{
-                color: white !important;
+              color: white !important;
             }
-            .btn-outline-primary,  .btn-outline-primary:active, .btn-outline-primary:visited {
-                color: #a45fc1 !important;
-                border: 1px solid #a45fc1 !important;
-            }
-            .btn-outline-primary:hover{
+            .btn-primary,  .btn-primary:active, .btn-primary:visited {
                 background-color: #a45fc1 !important;
-                color: white !important;
+                border: none;
+            }
+            .btn-primary:hover{
+                background-color: violet !important;
             }
             #profile_pic{
                 border-radius: 50%;
@@ -43,42 +41,37 @@
                 width:30px;
             }
             .container{
-                min-width: 60vw;
+                margin-top: 20px;
             }
-            #profile_pic_preview{
-                height: 350px;
-                width: 350px;
-                border-radius: 50%;
-                display: block;
-                margin: 0px auto;
-                border: 1px solid #f2af58;
+            a{
+                color:#a45fc1;
             }
-            .card-img-top{
-                height:200px;
+            .btn-link{
+                color:#f2af58 !important;
             }
-            .card{
+            .cart_item_preview{
+                height: 100px;
+                width: 100px;
+                outline: 1px solid #f2af58;
+                margin-right: 110px;
                 margin-left: 20px;
-                height: 410px;
-                width: 250px;
             }
-            .card-title{
-                color: black
+            td, th{
+                text-align: center;
             }
-            .card-body{
-                overflow: scroll;
+            .first_col{
+                text-align: left;
             }
-            .card-footer{
-                border: none;
-                background-color: #f2af58;
+            .move_down{
+                margin-top: 36px;
             }
-            .bg-warning{
-                background-color: #f2af58 !important;
+            #page_header{
+                display: flex;
             }
-            #listing_container{
-                min-width: 50vw !important;
-            }
-            a:hover{
-                color: #a45fc1;
+            #checkout_btn{
+                height: fit-content;
+                margin-top: 20px;
+                display: block;
             }
         </style>
     </head>
@@ -154,8 +147,8 @@
                     <input class="form-control mr-sm-2" type="search" placeholder="Search Quaranthings" aria-label="Search" id = "search">
                     <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
                     </form>
-                <li class="nav-item">
-                    <a class="nav-link nav_svg_link" href="#"><i class="fas fa-shopping-cart fa-lg" style = "color: #999d9f;" id = "cart"></i><p id = "cart_items">{{cart_count}}</p></a>
+                <li class="nav-item active">
+                    <a class="nav-link nav_svg_link" href="#"><i class="fas fa-shopping-cart fa-lg" style = "color: white;" id = "cart"></i><p id = "cart_items">{{cart_count}}</p></a>
                 </li>
                 {% if request.session.logged_user %}
                 <li class="nav-item dropdown">
@@ -178,55 +171,57 @@
       
             </div>
         </nav>
-        <div class = "container" style = "width: 25vw; margin-top: 10px;">
-            <h1 class = "display-4">{{quarangiver.first_name}} {{quarangiver.last_name}}</h1>
-            {% if quarangiver.profile_picture %}
-            <p id="output"><img src = '{{quarangiver.profile_picture.url}}' id = 'profile_pic_preview'></p>
-            {% else %}
-            <p id="output"><img src="{% static 'placeholder_profile.png' %}" id = 'profile_pic_preview'></p>
-            {% endif %}
-        </div>
-        <div class = "container" id = "listing_container">
-            <h3>{{quarangiver.first_name}}'s Listings</h3>
-            <div id = "items">
-                {% for product in quarangiver.products_listed.all %}
-                {% if forloop.counter0|divisibleby:4 %}
-                </div>
-                <div style="display: flex; margin-bottom: 20px;">
-                    <div class="card bg-warning">
-                        <img class="card-img-top" src="{{product.images.all.first.img_file.url}}" alt="Card image cap">
-                        <div class="card-body">
-                            <a href="http://localhost:8000/quaranthings/{{product.id}}" class = "card-title h5">{{product.name}}</a>
-                          <p class="card-text">{{product.description}}</p>
-                          
-                        </div>
-                        <div class = "card-footer">
-                            {% if product.price == 0%}
-                            <p class="card-text lead"><strong>Free</strong></p>
-                            {% else %}
-                            <p class="card-text lead"><strong>${{product.price}}</strong></p>
-                            {% endif %}
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="card bg-warning">
-                        <img class="card-img-top" src="{{product.images.all.first.img_file.url}}" alt="Card image cap">
-                        <div class="card-body">
-                            <a href="http://localhost:8000/quaranthings/{{product.id}}" class = "card-title h5">{{product.name}}</a>
-                            <p class="card-text">{{product.description}}</p>
-                        </div>
-                        <div class = "card-footer">
-                            {% if product.price == 0%}
-                            <p class="card-text lead"><strong>Free</strong></p>
-                            {% else %}
-                            <p class="card-text lead"><strong>${{product.price}}</strong></p>
-                            {% endif %}
-                        </div>
-                    </div>
+        <div class = "container">
+            <div id = "page_header">
+                <h1 class = "display-4">Your Cart</h1>
+                {% if cart.products %}
+                <a href="" class = "btn btn-primary ml-auto" id = "checkout_btn">Proceed to Checkout</a>
                 {% endif %}
-                {% endfor %}
             </div>
-            
+            {% if cart.products %}
+            <table class = "table table-light table-striped">
+                <thead class = "thead-dark">
+                    <tr>
+                        <th scope="col">Quaranthing</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    {% for item in cart.products.all %}
+                    <tr>
+                        <form action="/buy" method="POST">
+                            {% csrf_token %}
+                            <td class = "first_col" ><a href="http://localhost:8000/quaranthings/{{item.product.id}}" class = "product_link"><img src="{{item.product.images.all.first.img_file.url}}" alt="{{item.product.name}} photo" class = "cart_item_preview">{{item.product.name}}</a> </td>
+                            <td><input type="hidden" name="id" value="{{item.product.id}}"><p class = "move_down">{% if item.product.price == 0 %}Free{% else %}{{item.product.price}} {% endif %}</p></td>
+                            <td><select name="quantity" class = "move_down">
+                                {% for i in '0123456789'|make_list %}
+                                {% if forloop.counter  > item.product.stock %}
+                                {% else %}
+                                    {% if forloop.counter == item.quantity %}
+                                    <option value="{{ forloop.counter }}" selected>{{ forloop.counter }}</option>
+                                    {% else %}
+                                    <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
+                                    {% endif %}
+                                {% endif %}
+                                {% endfor %}            
+                            </select></td>
+                            <td>
+                                <form action="" method = "POST" class = "move_down" style="outline: 1px solid gray;">
+                                    {%csrf_token%} 
+                                    <button class = "btn btn-link" style="margin-top: 28px;">Remove from Cart</button>
+                                </form>
+                            </td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class = "lead">You don't currently have anything in your cart. Go add some quaranthings to your cart!</p>
+            {% endif %}
         </div>
     </body>
 </html>

@@ -49,3 +49,16 @@ class Review(models.Model):
     product = models.ForeignKey(Product, related_name = "reviews", on_delete = models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+class OrderItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class Order(models.Model):
+    products = models.ManyToManyField(OrderItem)
+    user = models.ForeignKey(User, related_name = "orders", on_delete = models.CASCADE)
+    ordered = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
