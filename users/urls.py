@@ -6,5 +6,5 @@ urlpatterns = [
     path('/<int:id>', views.quarangiver),
     path('/cart', views.shopping_cart),
     path('/remove_cart_item', views.remove_cart_item),
-    path('/update_cart_count', views.update_cart_count)
+    path('/update_cart_count', views.update_cart_count),
 ]

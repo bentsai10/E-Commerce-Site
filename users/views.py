@@ -46,14 +46,17 @@ def shopping_cart(request):
     else:
         user = User.objects.filter(email = request.session['logged_user']).all().first()
         total_quantity = 0
+        total_price = 0
         if Order.objects.filter(user = user).filter(ordered = False).all().count() > 0:
             order_items = Order.objects.filter(user = user).filter(ordered = False).all().first().products.all()
             for item in order_items:
                 total_quantity += item.quantity
+                total_price += item.product.price * item.quantity
         context = {
             'user': user,
             'cart': Order.objects.filter(user = user).filter(ordered = False).all().first(),
-            'cart_count': total_quantity
+            'cart_count': total_quantity,
+            'total_price': total_price
         }
         return render(request, 'cart.html', context)
 
@@ -90,3 +93,4 @@ def update_cart_count(request):
         'cart_count': total_quantity
     }
     return render(request, 'partials/update_cart_items.html', context)
+
