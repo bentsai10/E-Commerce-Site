@@ -238,13 +238,17 @@ def add_to_cart(request, num):
         else:
             cart = Order.objects.create(user = user)
         product = Product.objects.get(id = num)
-        if OrderItem.objects.filter(product = product).all().count() > 0:
-            order_item = OrderItem.objects.filter(product = product).all().first()
-            order_item.quantity += 1
-            order_item.save()
-        else:
-            order_item = OrderItem.objects.create(product = product, quantity = request.POST['quantity'])
-            cart.products.add(order_item)
+        other_user_items = OrderItem.objects.filter(product = product).all()
+        exists = False
+        for item in other_user_items:
+            if item in cart.products.all():
+                item.quantity += int(request.POST['quantity'])
+                item.save()
+                exists = True
+        if not exists:
+            new_item = OrderItem.objects.create(product = product, quantity = request.POST['quantity'])
+            cart.products.add(new_item)
+        
         return redirect('/users/cart')
     else:
         return redirect('/quaranthings/{}'.format(num))
