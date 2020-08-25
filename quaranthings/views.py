@@ -120,7 +120,7 @@ def delete_quaranthing(request, num):
 
 def top_picks(request):
     context = {
-        'picks': Product.objects.all().order_by('-views')[:40], 
+        'picks': Product.objects.all().order_by('-views')[:24], 
         'categories': Category.objects.all(),
     }
     if 'logged_user' in request.session:
@@ -238,8 +238,13 @@ def add_to_cart(request, num):
         else:
             cart = Order.objects.create(user = user)
         product = Product.objects.get(id = num)
-        order_item = OrderItem.objects.create(product = product, quantity = request.POST['quantity'])
-        cart.products.add(order_item)
+        if OrderItem.objects.filter(product = product).all().count() > 0:
+            order_item = OrderItem.objects.filter(product = product).all().first()
+            order_item.quantity += 1
+            order_item.save()
+        else:
+            order_item = OrderItem.objects.create(product = product, quantity = request.POST['quantity'])
+            cart.products.add(order_item)
         return redirect('/users/cart')
     else:
         return redirect('/quaranthings/{}'.format(num))

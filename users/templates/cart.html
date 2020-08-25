@@ -11,6 +11,7 @@
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <style>
             img{
                 height: 40px;
@@ -152,7 +153,7 @@
                 </li>
                 {% if request.session.logged_user %}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="http://localhost:8000/users/cart" id="user" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% if user.profile_picture %}<img src="{{user.profile_picture.url}}" id = "profile_pic">{% else %}<i class="fas fa-user-circle fa-2x"></i>{% endif %}</a>
+                    <a class="nav-link dropdown-toggle" href="#" id="user" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% if user.profile_picture %}<img src="{{user.profile_picture.url}}" id = "profile_pic">{% else %}<i class="fas fa-user-circle fa-2x"></i>{% endif %}</a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user">
                     <a class="dropdown-item" href="http://localhost:8000/edit_profile">Edit Profile</a>
                     <a class="dropdown-item" href="http://localhost:8000/quaranthings/new">Post Quaranthings</a>
@@ -178,50 +179,81 @@
                 <a href="" class = "btn btn-primary ml-auto" id = "checkout_btn">Proceed to Checkout</a>
                 {% endif %}
             </div>
-            {% if cart.products %}
-            <table class = "table table-light table-striped">
-                <thead class = "thead-dark">
-                    <tr>
-                        <th scope="col">Quaranthing</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    
-                    {% for item in cart.products.all %}
-                    <tr>
-                        <form action="/buy" method="POST">
-                            {% csrf_token %}
-                            <td class = "first_col" ><a href="http://localhost:8000/quaranthings/{{item.product.id}}" class = "product_link"><img src="{{item.product.images.all.first.img_file.url}}" alt="{{item.product.name}} photo" class = "cart_item_preview">{{item.product.name}}</a> </td>
-                            <td><input type="hidden" name="id" value="{{item.product.id}}"><p class = "move_down">{% if item.product.price == 0 %}Free{% else %}{{item.product.price}} {% endif %}</p></td>
-                            <td><select name="quantity" class = "move_down">
-                                {% for i in '0123456789'|make_list %}
-                                {% if forloop.counter  > item.product.stock %}
-                                {% else %}
-                                    {% if forloop.counter == item.quantity %}
-                                    <option value="{{ forloop.counter }}" selected>{{ forloop.counter }}</option>
+            <div id = "cart_products">
+                {% if cart.products.count > 0 %}
+                <table class = "table table-light table-striped">
+                    <thead class = "thead-dark">
+                        <tr>
+                            <th scope="col">Quaranthing</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart.products.all %}
+                        <tr>
+                            <form action="/buy" method="POST">
+                                {% csrf_token %}
+                                <td class = "first_col" ><a href="http://localhost:8000/quaranthings/{{item.product.id}}" class = "product_link"><img src="{{item.product.images.all.first.img_file.url}}" alt="{{item.product.name}} photo" class = "cart_item_preview">{{item.product.name}}</a> </td>
+                                <td><input type="hidden" name="id" value="{{item.product.id}}"><p class = "move_down">{% if item.product.price == 0 %}Free{% else %}{{item.product.price}} {% endif %}</p></td>
+                                <td><select name="quantity" class = "move_down">
+                                    {% for i in '0123456789'|make_list %}
+                                    {% if forloop.counter  > item.product.stock %}
                                     {% else %}
-                                    <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
+                                        {% if forloop.counter == item.quantity %}
+                                        <option value="{{ forloop.counter }}" selected>{{ forloop.counter }}</option>
+                                        {% else %}
+                                        <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
+                                        {% endif %}
                                     {% endif %}
-                                {% endif %}
-                                {% endfor %}            
-                            </select></td>
-                            <td>
-                                <form action="" method = "POST" class = "move_down" style="outline: 1px solid gray;">
-                                    {%csrf_token%} 
-                                    <button class = "btn btn-link" style="margin-top: 28px;">Remove from Cart</button>
-                                </form>
-                            </td>
-                        </form>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% else %}
-            <p class = "lead">You don't currently have anything in your cart. Go add some quaranthings to your cart!</p>
-            {% endif %}
+                                    {% endfor %}            
+                                </select></form></td>
+                                <td>
+                                    <form action="http://localhost:8000/users/remove_cart_item" method = "POST" class = "move_down delete_item">
+                                        {%csrf_token%}
+                                        <input type="hidden" name="cart_item_id" value = "{{item.id}}">
+                                        <button class = "btn btn-link" style = "margin-top: -8px;">Remove from Cart</button>
+                                    </form>
+                                </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p class = "lead">You don't currently have anything in your cart. Go add some quaranthings to your cart!</p>
+                {% endif %}
+            </div>
+            
         </div>
+
+
+        <script>
+            $(document).on('submit', '.delete_item', function() {
+                console.log("we are getting here");
+                $.ajax({
+                    type: $(this).attr('method'),
+                    url: $(this).attr('action'),
+                    data: $(this).serialize(),
+                    success: function (data) {
+                        $('#cart_products').html(data);
+                        $.ajax({
+                            url: "http://localhost:8000/users/update_cart_count",
+                            success: function (data) {
+                                $('#cart_items').html(data);
+                            },
+                            error: function(data) {
+                                console.log("something went wrong");
+                            }
+                        });
+                    },
+                    error: function(data) {
+                        console.log("something went wrong");
+                    }
+                });
+                
+                return false;
+            });
+          </script>
     </body>
 </html>

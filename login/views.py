@@ -31,7 +31,7 @@ def login(request):
         context = {
             'cart_count': 0
         }
-        return render(request, 'login.html')
+        return render(request, 'login.html', context)
 
 def register(request):
     if 'logged_user' in request.session:

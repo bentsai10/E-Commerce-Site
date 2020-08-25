@@ -121,11 +121,11 @@
                     <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
                     </form>
                 <li class="nav-item">
-                    <a class="nav-link nav_svg_link" href="#"><i class="fas fa-shopping-cart fa-lg" style = "color: #999d9f;" id = "cart"></i><p id = "cart_items">{{cart_count}}</p></a>
+                    <a class="nav-link nav_svg_link" href="http://localhost:8000/users/cart"><i class="fas fa-shopping-cart fa-lg" style = "color: #999d9f;" id = "cart"></i><p id = "cart_items">{{cart_count}}</p></a>
                 </li>
                 {% if request.session.logged_user %}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="http://localhost:8000/users/cart" id="user" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% if user.profile_picture %}<img src="{{user.profile_picture.url}}" id = "profile_pic">{% else %}<i class="fas fa-user-circle fa-2x"></i>{% endif %}</a>
+                    <a class="nav-link dropdown-toggle" href="#" id="user" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% if user.profile_picture %}<img src="{{user.profile_picture.url}}" id = "profile_pic">{% else %}<i class="fas fa-user-circle fa-2x"></i>{% endif %}</a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user">
                     <a class="dropdown-item" href="http://localhost:8000/edit_profile">Edit Profile</a>
                     <a class="dropdown-item" href="http://localhost:8000/quaranthings/new">Post Quaranthings</a>

@@ -1,0 +1,43 @@
+{% if cart.products %}
+    <table class = "table table-light table-striped">
+        <thead class = "thead-dark">
+            <tr>
+                <th scope="col">Quaranthing</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart.products.all %}
+            <tr>
+                <form action="/buy" method="POST">
+                    {% csrf_token %}
+                    <td class = "first_col" ><a href="http://localhost:8000/quaranthings/{{item.product.id}}" class = "product_link"><img src="{{item.product.images.all.first.img_file.url}}" alt="{{item.product.name}} photo" class = "cart_item_preview">{{item.product.name}}</a> </td>
+                    <td><input type="hidden" name="id" value="{{item.product.id}}"><p class = "move_down">{% if item.product.price == 0 %}Free{% else %}{{item.product.price}} {% endif %}</p></td>
+                    <td><select name="quantity" class = "move_down">
+                        {% for i in '0123456789'|make_list %}
+                        {% if forloop.counter  > item.product.stock %}
+                        {% else %}
+                            {% if forloop.counter == item.quantity %}
+                            <option value="{{ forloop.counter }}" selected>{{ forloop.counter }}</option>
+                            {% else %}
+                            <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
+                            {% endif %}
+                        {% endif %}
+                        {% endfor %}            
+                    </select></form></td>
+                    <td>
+                        <form action="http://localhost:8000/users/remove_cart_item" method = "POST" class = "move_down delete_item">
+                            {%csrf_token%}
+                            <input type="hidden" name="cart_item_id" value = "{{item.id}}">
+                            <button class = "btn btn-link" style = "margin-top: -8px;">Remove from Cart</button>
+                        </form>
+                    </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class = "lead">You don't currently have anything in your cart. Go add some quaranthings to your cart!</p>
+    {% endif %}
