@@ -3,6 +3,7 @@ from .models import *
 from login.models import *
 from quaranthings.models import *
 from django.db.models import Q
+from decimal import *
 
 # Create your views here.
 
@@ -46,17 +47,17 @@ def shopping_cart(request):
     else:
         user = User.objects.filter(email = request.session['logged_user']).all().first()
         total_quantity = 0
-        total_price = 0
         if Order.objects.filter(user = user).filter(ordered = False).all().count() > 0:
             order_items = Order.objects.filter(user = user).filter(ordered = False).all().first().products.all()
             for item in order_items:
                 total_quantity += item.quantity
-                total_price += item.product.price * item.quantity
+        else:
+            Order.objects.create(user = user, ordered = False, total = 0)
         context = {
             'user': user,
             'cart': Order.objects.filter(user = user).filter(ordered = False).all().first(),
             'cart_count': total_quantity,
-            'total_price': total_price
+            'total_price': Order.objects.filter(user = user).filter(ordered = False).all().first().total
         }
         return render(request, 'cart.html', context)
 
@@ -65,7 +66,9 @@ def remove_cart_item(request):
         user = User.objects.filter(email = request.session['logged_user']).all().first()
         cart = Order.objects.filter(user = user).filter(ordered = False).all().first()
         cart_item = OrderItem.objects.get(id = request.POST['cart_item_id']) 
+        cart.total -= Decimal(cart_item.product.price) * Decimal(cart_item.quantity)
         cart.products.remove(cart_item)
+        cart.save()
         total_quantity = 0
         if Order.objects.filter(user = user).filter(ordered = False).all().count() > 0:
             order_items = Order.objects.filter(user = user).filter(ordered = False).all().first().products.all()
@@ -74,7 +77,8 @@ def remove_cart_item(request):
         context = {
             'user': user,
             'cart': cart,
-            'cart_count': total_quantity
+            'cart_count': total_quantity,
+            'total_price': cart.total
         }
         return render(request, 'partials/partial_cart.html', context)
     else:
@@ -93,4 +97,25 @@ def update_cart_count(request):
         'cart_count': total_quantity
     }
     return render(request, 'partials/update_cart_items.html', context)
+
+def process_order(request):
+    user = User.objects.filter(email = request.session['logged_user']).all().first()
+    cart = Order.objects.filter(user = user).filter(ordered = False).all().first()
+    cart.ordered = True
+    cart.save()
+    return redirect('/users/my_orders')
+
+def my_orders(request):
+    user = User.objects.filter(email = request.session['logged_user']).all().first()
+    total_quantity = 0
+    if Order.objects.filter(user = user).filter(ordered = False).all().count() > 0:
+        order_items = Order.objects.filter(user = user).filter(ordered = False).all().first().products.all()
+        for item in order_items:
+            total_quantity += item.quantity
+    context = {
+        'user': user,
+        'cart_count': total_quantity,
+        'orders': Order.objects.filter(user = user).filter(ordered = True).all()
+    }
+    return render(request, 'orders.html', context)
 

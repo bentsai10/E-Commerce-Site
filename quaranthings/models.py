@@ -60,5 +60,6 @@ class Order(models.Model):
     products = models.ManyToManyField(OrderItem)
     user = models.ForeignKey(User, related_name = "orders", on_delete = models.CASCADE)
     ordered = models.BooleanField(default=False)
+    total = models.DecimalField(max_digits=8, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

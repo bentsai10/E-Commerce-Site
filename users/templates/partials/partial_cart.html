@@ -1,4 +1,4 @@
-{% if cart.products %}
+{% if cart.products.all.count > 0 %}
     <table class = "table table-light table-striped">
         <thead class = "thead-dark">
             <tr>
@@ -36,6 +36,12 @@
                     </td>
             </tr>
             {% endfor %}
+            <tr class = "bg-warning">
+                <td><strong>Totals:</strong></td>
+                <td><strong>${{total_price}}</strong></td>
+                <td><strong>{{cart_count}}</strong></td>
+                <td></td>
+            </tr>
         </tbody>
     </table>
     {% else %}

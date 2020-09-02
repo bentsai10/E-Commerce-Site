@@ -3,6 +3,7 @@ from django.db.models import Avg, Q
 from .models import *
 from login.models import *
 from django.contrib import messages
+from decimal import *
 
 # Create your views here.
 
@@ -143,7 +144,7 @@ def category(request, category):
     else:
         context = {
             'category': Category.objects.filter(name = formatted_category).all().first(),
-            'products': Category.objects.filter(name = formatted_category).all().first().products.all(),
+            'products': Category.objects.filter(name = formatted_category).all().first().products.all().order_by('-views'),
         }
         if 'logged_user' in request.session:
             user = User.objects.filter(email = request.session['logged_user']).all().first()
@@ -233,22 +234,29 @@ def filter_category(request, cat):
 def add_to_cart(request, num):
     if request.method == "POST":
         user = User.objects.filter(email = request.session['logged_user']).all().first()
+        #if user does have a cart, find it. Otherwise create a new cart
         if Order.objects.filter(user = user).filter(ordered = False).all().count() > 0:
             cart = Order.objects.filter(user = user).filter(ordered = False).all().first()
         else:
-            cart = Order.objects.create(user = user)
+            cart = Order.objects.create(user = user, total = 0)
+        
         product = Product.objects.get(id = num)
-        other_user_items = OrderItem.objects.filter(product = product).all()
+
+        
         exists = False
-        for item in other_user_items:
-            if item in cart.products.all():
+        #if product to be added to cart already exists in cart
+        for item in cart.products.all():
+            if item.product ==  product:
                 item.quantity += int(request.POST['quantity'])
                 item.save()
+                cart.total += int(request.POST['quantity']) * item.product.price
+                cart.save()
                 exists = True
         if not exists:
             new_item = OrderItem.objects.create(product = product, quantity = request.POST['quantity'])
             cart.products.add(new_item)
-        
+            cart.total += Decimal(new_item.quantity) * Decimal(new_item.product.price)
+            cart.save()
         return redirect('/users/cart')
     else:
         return redirect('/quaranthings/{}'.format(num))
