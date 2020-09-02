@@ -106,16 +106,19 @@ def process_order(request):
     return redirect('/users/my_orders')
 
 def my_orders(request):
-    user = User.objects.filter(email = request.session['logged_user']).all().first()
-    total_quantity = 0
-    if Order.objects.filter(user = user).filter(ordered = False).all().count() > 0:
-        order_items = Order.objects.filter(user = user).filter(ordered = False).all().first().products.all()
-        for item in order_items:
-            total_quantity += item.quantity
-    context = {
-        'user': user,
-        'cart_count': total_quantity,
-        'orders': Order.objects.filter(user = user).filter(ordered = True).all()
-    }
-    return render(request, 'orders.html', context)
+    if 'logged_user' in request.session:
+        user = User.objects.filter(email = request.session['logged_user']).all().first()
+        total_quantity = 0
+        if Order.objects.filter(user = user).filter(ordered = False).all().count() > 0:
+            order_items = Order.objects.filter(user = user).filter(ordered = False).all().first().products.all()
+            for item in order_items:
+                total_quantity += item.quantity
+        context = {
+            'user': user,
+            'cart_count': total_quantity,
+            'orders': Order.objects.filter(user = user).filter(ordered = True).all()
+        }
+        return render(request, 'orders.html', context)
+    else:
+        return redirect('/login')
 

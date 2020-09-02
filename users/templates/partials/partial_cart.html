@@ -1,4 +1,11 @@
-{% if cart.products.all.count > 0 %}
+<div id = "page_header">
+    <h1 class = "display-4">Your Cart</h1>
+    {% if cart.products.all.count > 0  %}
+    <a href="http://localhost:8000/users/cart/process_order" class = "btn btn-primary ml-auto" id = "checkout_btn">Place Order</a>
+    {% endif %}
+</div>
+<div>
+    {% if cart.products.all.count > 0 %}
     <table class = "table table-light table-striped">
         <thead class = "thead-dark">
             <tr>
@@ -14,7 +21,7 @@
                 <form action="/buy" method="POST">
                     {% csrf_token %}
                     <td class = "first_col" ><a href="http://localhost:8000/quaranthings/{{item.product.id}}" class = "product_link"><img src="{{item.product.images.all.first.img_file.url}}" alt="{{item.product.name}} photo" class = "cart_item_preview">{{item.product.name}}</a> </td>
-                    <td><input type="hidden" name="id" value="{{item.product.id}}"><p class = "move_down">{% if item.product.price == 0 %}Free{% else %}{{item.product.price}} {% endif %}</p></td>
+                    <td><input type="hidden" name="id" value="{{item.product.id}}"><p class = "move_down">{% if item.product.price == 0 %}Free{% else %}${{item.product.price}} {% endif %}</p></td>
                     <td><select name="quantity" class = "move_down">
                         {% for i in '0123456789'|make_list %}
                         {% if forloop.counter  > item.product.stock %}
@@ -47,3 +54,4 @@
     {% else %}
     <p class = "lead">You don't currently have anything in your cart. Go add some quaranthings to your cart!</p>
     {% endif %}
+</div>

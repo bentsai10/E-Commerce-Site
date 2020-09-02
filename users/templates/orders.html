@@ -53,6 +53,34 @@
             .bg-warning{
                 background-color: #f2af58 !important;
             }
+            .card-header{
+                display: flex;
+            }
+            .header_tag, .product_link{
+                margin-left: 20px;
+            }
+            .product_link{
+                vertical-align: top;
+            }
+            .cart_item_preview{
+                height: 120px;
+                width: 120px;
+                vertical-align: top;
+            }
+            .order_item_info{
+                display: flex;
+                margin-left: 140px;
+                margin-top: -75px;
+            }
+            .order_item_desc{
+                margin-left: 140px;
+            }
+            h4{
+                display: inline;
+            }
+            .item_tag{
+                margin-right: 20px;
+            }
         </style>
     </head>
     <body>
@@ -128,7 +156,7 @@
                     <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
                     </form>
                 <li class="nav-item">
-                    <a class="nav-link nav_svg_link" href="http://localhost:8000/users/cart"><i class="fas fa-shopping-cart fa-lg" style = "color: white;" id = "cart"></i><p id = "cart_items">{{cart_count}}</p></a>
+                    <a class="nav-link nav_svg_link" href="http://localhost:8000/users/cart"><i class="fas fa-shopping-cart fa-lg" style = "color: #999d9f;" id = "cart"></i><p id = "cart_items">{{cart_count}}</p></a>
                 </li>
                 {% if request.session.logged_user %}
                 <li class="nav-item dropdown">
@@ -136,6 +164,7 @@
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user">
                     <a class="dropdown-item" href="http://localhost:8000/edit_profile">Edit Profile</a>
                     <a class="dropdown-item" href="http://localhost:8000/quaranthings/new">Post Quaranthings</a>
+                    <a class="dropdown-item" href="http://localhost:8000/users/{{user.id}}">My Quaranthings</a>
                     <a class="dropdown-item" href="#">My Orders</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="http://localhost:8000/logout">Log Out</a>
@@ -152,21 +181,36 @@
             </div>
         </nav>
         <div class = "container">
+            <h1 class = "display-4">Your Orders</h1>
+            {% if orders.all.count > 0%}
             {% for order in orders %}
             <div class="card">
                 <div class="card-header text-muted">
-                    <p>Order placed: {{order.created_at|date:'m/d/Y'}}</p>
+                    <p>Order placed: {{order.updated_at|date:'m/d/Y'}}</p>
+                    <p class = "header_tag">Order total: ${{order.total}}</p>
+                    <p class = "header_tag">Order ID: {{order.id}}</p>
                 </div>
                 <div class="card-body">
-                  <h5 class="card-title">Special title treatment</h5>
-                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-                <div class="card-footer text-muted">
-                  2 days ago
+                    {% for item in order.products.all %}
+                    <div class = "product_display">
+                        <img src="{{item.product.images.all.first.img_file.url}}" alt="{{item.product.name}} photo" class = "cart_item_preview">
+                        <h4 class = 'card-text product_link'><a href="http://localhost:8000/quaranthings/{{item.product.id}}">{{item.product.name}}</a></h4>
+                        <div class = "order_item_info">
+                            <p class = "card-text item_tag">Sold By: <a href="http://localhost:8000/users/{{item.product.seller.id}}">{{item.product.seller.first_name}} {{item.product.seller.last_name}}</a></p>
+                            <p class = "card-text item_tag">Item Quantity: {{item.quantity}}</p>
+                            <p class = "card-text">Item Price: ${{item.product.price}}</p>
+                            
+                        </div>
+                            
+                        <p class = "card-text lead order_item_desc">{{item.product.description}}</p>
+                    </div>
+                    {% endfor %}
                 </div>
               </div>
             {% endfor %}
+            {% else %}
+            <p class = "lead">You haven't placed any orders yet. You can place an order by adding things to your cart and placing an order!</p>
+            {% endif %}
         </div>
     </body>
 </html>
