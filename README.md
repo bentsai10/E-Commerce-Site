@@ -34,10 +34,10 @@ Connect users through activity appointments scheduled with intentionality and DI
   <p align = "center"><kbd><img src = "/images/top_picks.gif"></kbd></p>
   <li>The top picks page is equipped with AJAX filtering fictions, allowing you to narrow down your search</li>
   <br>
-  <p align = "center"><kbd><img src = "/images/ajax_filter.gif"></kbd></p>
+  <p align = "center"><kbd><img src = "/images/ajax_filtering.gif"></kbd></p>
   <li>If you want to see Quaranthings in a specific category, just navigate to that category's page</li>
   <br>
-  <p align = "center"><kbd><img src = "/images/category.gif"></kbd></p>
+  <p align = "center"><kbd><img src = "/images/categories.gif"></kbd></p>
   <li>To take an in depth look at a Quaranthing, click on the Quaranthing card. On the Quaranthing page, you can see other images of the Quaranthing, add it to your cart, leave a review, or see related items</li>
   <br>
   <p align = "center"><kbd><img src = "/images/quaranthing.gif"></kbd></p>
@@ -57,10 +57,8 @@ Connect users through activity appointments scheduled with intentionality and DI
   <li>Coming Soon...</li>
   <br>
   <ul>
-    <li>Adding items to cart</li>
-    <li>Processing order</li>
-    <li>Search bar</li>
     <li>Responsive layout</li>
+    <li>Search bar</li>
   </ul>
 </ol>
 <h3>Logic Behind Quaranthings</h3>
